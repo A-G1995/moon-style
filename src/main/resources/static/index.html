@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>پنل کاربری مون استایل</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+  <style>
+    /* استایل کلی */
+    body {
+      font-family: iran;
+      background-color: #f9f9f9;
+      margin: 0;
+      padding: 0;
+      color: #000;
+    }
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+    /* هدر فروشگاه */
+    header {
+      background-color: white;
+      padding: 15px 20px;
+      text-align: center;
+      font-weight: 700;
+      font-size: 1.8em;
+      color: #001937;
+      border-bottom: 2px solid #001937;
+      animation: colorShift 3s infinite alternate;
+    }
+    @keyframes colorShift {
+      0% { color: #001937; }
+      50% { color: #003366; }
+      100% { color: #001937; }
+    }
+
+   
+
+    /* بخش ویژگی‌ها */
+    .features {
+      display: flex;
+      justify-content: center;
+      gap: 60px;
+      margin: 60px 0 40px 0;
+      font-weight: 600;
+      color: #001937;
+      flex-wrap: wrap;
+      max-width: 900px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .feature-item {
+      text-align: center;
+      max-width: 140px;
+    }
+    .feature-item i {
+      font-size: 48px;
+      color: #001937;
+      margin-bottom: 8px;
+    }
+
+    /* فوتر */
+    footer {
+      background-color: #001f3f;
+      font-size: 1em;
+      padding-top: 40px;
+      padding-bottom: 20px;
+      color: white;
+    }
+    .container-footer {
+      display: flex;
+      max-width: 1000px;
+      margin: 0 auto 30px auto;
+      gap: 40px;
+      flex-wrap: wrap;
+      padding: 0 20px;
+    }
+    .right {
+      flex: 2;
+      padding: 0 20px;
+    }
+    .right .title {
+      padding: 10px 0;
+      font-size: 1.2em;
+      font-weight: 700;
+      color: white;
+    }
+    .right .des {
+      color: rgba(255, 255, 255, 0.7);
+      line-height: 1.9em;
+      font-size: 0.9em;
+    }
+    .left {
+      flex: 1;
+      padding: 0 20px;
+    }
+    .left .title {
+      padding: 10px 0;
+      font-size: 1.2em;
+      font-weight: 700;
+      color: white;
+    }
+    .socials {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 20px;
+    }
+    .socials a {
+      color: white;
+      font-size: 1.4em;
+      transition: color 0.3s ease;
+    }
+    .socials a:hover {
+      color: #ff6f61;
+    }
+    .bottom {
+      background-color: #2d3436;
+      text-align: center;
+      padding: 15px;
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 0.9em;
+    }
+
+  </style>
+</head>
+<body>
+
+
+ <!DOCTYPE html>
+<html lang="fa">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>سبد خرید</title>
+  <style>
+    body {
+      font-family: iran;
+      margin: 0;
+      background-color: #f4f4f4;
+      color: #001937;
+    }
+
+    header {
+      background-color: #fff;
+      padding: 20px;
+      color: #fff;
+      text-align: center;
+      font-size: 24px;
+      letter-spacing: 1px;
+    }
+
+    .cart-container {
+      max-width: 800px;
+      margin: 40px auto;
+      background: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+    }
+
+    .empty-cart {
+      text-align: center;
+      font-size: 20px;
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    .cart-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 25px;
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      animation: slideIn 0.5s ease forwards;
+    }
+
+    .cart-item img {
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-left: 20px;
+    }
+
+    .item-details {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .item-details h3 {
+      margin: 0;
+      font-size: 18px;
+    }
+
+    .item-details span {
+      font-weight: bold;
+    }
+
+    .remove-btn {
+      background: none;
+      border: none;
+      color: #d11a2a;
+      cursor: pointer;
+      font-size: 20px;
+      transition: transform 0.2s;
+    }
+
+    .remove-btn:hover {
+      transform: scale(1.2);
+    }
+
+    @keyframes fadeIn {
+      from {opacity: 0;}
+      to {opacity: 1;}
+    }
+
+    @keyframes slideIn {
+      from {transform: translateY(20px); opacity: 0;}
+      to {transform: translateY(0); opacity: 1;}
+    }
+  </style>
+</head>
+<body>
+
+
+
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+  <meta charset="UTF-8">
+  <title>صفحه با آیکون خانه</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      direction: rtl;
+      text-align: center;
+      margin-top: 100px;
+    }
+
+    .home-icon {
+      font-size: 48px;
+      text-decoration: none;
+      color: black;
+    }
+
+    .home-icon:hover {
+      color: #007BFF;
+    }
+  </style>
+</head>
+<body>
+
+  <a href="home.html" class="home-icon" title="بازگشت به صفحه اصلی">🏠</a>
+  <p>برای بازگشت به صفحه اصلی روی آیکون بالا کلیک کنید</p>
+
+</body>
+</html>
+
+
+
+  <!-- بخش ویژگی‌ها -->
+  <section class="features" aria-label="ویژگی های فروشگاه">
+    <div class="feature-item">
+      <i class="fas fa-calendar-check"></i>
+      <p>ضمانت بازگشت کالا</p>
+    </div>
+    <div class="feature-item">
+      <i class="fas fa-check-circle"></i>
+      <p>ضمانت اصالت کالا</p>
+    </div>
+    <div class="feature-item">
+      <i class="fas fa-headset"></i>
+      <p>خدمات پس از فروش</p>
+    </div>
+    <div class="feature-item">
+      <i class="fas fa-shipping-fast"></i>
+      <p>تحویل سریع و آسان</p>
+    </div>
+  </section>
+
+  <!-- فوتر -->
+  <footer>
+    <div class="container-footer">
+      <div class="right">
+        <div class="title">درباره ما</div>
+        <div class="des">
+          فروشگاه اینترنتی مون استایل با هدف ارائه پوشاک باکیفیت، شیک و متناسب با سبک زندگی مدرن تأسیس شده است. این مجموعه با تمرکز بر طراحی روز، جزئیات دقیق و رضایت‌مندی مشتریان، تلاش دارد تجربه‌ای متفاوت و حرفه‌ای از خرید آنلاین را فراهم آورد. مون استایل با پایبندی به اصول کیفیت، تعهد و احترام به مشتری، همواره در مسیر بهبود خدمات و گسترش محصولات گام برمی‌دارد.
+        </div>
+      </div>
+      <div class="left">
+        <div class="title">ما را در شبکه های اجتماعی دنبال کنید</div>
+        <div class="socials">
+          <a href="#" aria-label="توییتر"><i class="fab fa-twitter"></i></a>
+          <a href="#" aria-label="اینستاگرام"><i class="fab fa-instagram"></i></a>
+          <a href="#" aria-label="لینکدین"><i class="fab fa-linkedin"></i></a>
+          <a href="#" aria-label="تلگرام"><i class="fab fa-telegram-plane"></i></a>
+        </div>
+      </div>
+    </div>
+    <div class="bottom">
+      کلیه حقوق این وب سایت به مون استایل تعلق دارد 2025 ©
+    </div>
+  </footer>
+
+</body>
+</html>

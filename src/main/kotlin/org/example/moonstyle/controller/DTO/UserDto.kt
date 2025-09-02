@@ -1,4 +1,8 @@
 package org.example.moonstyle.controller.DTO
 
-class UserDto {
-}
+data class UserDto(
+    val id: Int,
+    val name: String,
+    val email: String,
+    val password: String
+)

@@ -6,5 +6,4 @@ interface UserService {
     fun create(user: UserDto): UserDto
     fun login(email: String, password: String): UserDto
     fun register(user: UserDto): UserDto
-    
 }

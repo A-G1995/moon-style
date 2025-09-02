@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>صفحه محصول - مون استایل</title>
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Vazirmatn', iran, sans-serif;
+      background-color: #f9f9f9;
+      margin: 0;
+      padding: 30px 20px 0 20px;
+      color: #000;
+      direction: rtl;
+    }
+
+    .container {
+      max-width: 1150px;
+      margin: auto;
+      display: flex;
+      gap: 25px;
+      flex-wrap: wrap;
+    }
+    /* فروشنده */
+    .seller-box {
+      width: 270px;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.07);
+      padding: 20px;
+      font-size: 14px;
+      height: fit-content;
+      transition: all 0.3s ease;
+      margin-top: 30px;
+      margin-bottom: 30px;
+      flex-shrink: 0;
+    }
+    .seller-box:hover {
+      transform: translateY(-5px);
+    }
+    .store-name {
+      font-weight: bold;
+      font-size: 16px;
+      margin-bottom: 10px;
+      color: #001937;
+    }
+    .satisfaction {
+      color: #2ca02c;
+      margin-bottom: 12px;
+    }
+    .price {
+      font-size: 22px;
+      font-weight: bold;
+      color: #d62828;
+      margin: 20px 0;
+    }
+    .seller-box button {
+      width: 100%;
+      background-color: #001937;
+      color: white;
+      border: none;
+      padding: 12px 0;
+      cursor: pointer;
+      font-size: 16px;
+      border-radius: 6px;
+      transition: background 0.3s ease;
+    }
+    .seller-box button:hover {
+      background-color: #002c65;
+    }
+
+    /* وسط محصول */
+    .middle {
+      background: #fff;
+      border-radius: 12px;
+      padding: 25px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.07);
+      width: 400px;
+      height: 400px;
+      display: flex;
+      flex-direction: column;
+      margin-top: 30px;
+      flex-shrink: 0;
+    }
+    .product-name {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: #001937;
+    }
+    .rating {
+      font-size: 20px;
+      position: relative;
+      display: inline-block;
+      color: #ddd;
+      font-family: 'Vazirmatn', iran, sans-serif, Arial, sans-serif;
+      line-height: 1;
+      margin-bottom: 20px;
+    }
+
+
+
+
+    .rating span {
+      font-size: 14px;
+      color: #555;
+      margin-right: 8px;
+      position: relative;
+      z-index: 2;
+      background: #fff;
+      padding: 0 6px;
+      border-radius: 4px;
+    }
+    .select-group {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+    .select-group label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 600;
+      color: #001937;
+    }
+    .select-group select {
+      padding: 6px 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+      cursor: pointer;
+      min-width: 100px;
+    }
+    .features-list {
+      font-size: 14px;
+      color: #333;
+      margin-top: auto;
+    }
+    .features-list strong {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 700;
+      color: #001937;
+    }
+    .features-list ul {
+      padding-left: 18px;
+      margin: 0;
+      list-style-type: disc;
+    }
+    .features-list li {
+      margin-bottom: 6px;
+    }
+
+    /* سمت راست - عکس محصول */
+    .right {
+      width: 320px;
+      position: relative;
+      margin-top: 30px;
+      flex-shrink: 0;
+    }
+    .product-image {
+      width: 100%;
+      border-radius: 20px;
+      transition: transform 0.3s ease;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.1);
+      display: block;
+    }
+    .product-image:hover {
+      transform: scale(1.03);
+    }
+    .favorite-icon {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      background: #fff;
+      border-radius: 50%;
+      width: 42px;
+      height: 42px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      transition: background 0.3s ease;
+    }
+    .favorite-icon svg {
+      fill: #999;
+      width: 24px;
+      height: 24px;
+      transition: fill 0.3s ease;
+      transform: none !important;
+    }
+    .favorite-icon.active svg {
+      fill: #e63946;
+    }
+    .favorite-icon:hover {
+      background: #f2f2f2;
+    }
+
+    /* بخش ویژگی‌ها - جدا از ویژگی‌های محصول */
+    .features {
+      display: flex;
+      justify-content: center;
+      gap: 60px;
+      margin: 60px auto 40px auto;
+      font-weight: 600;
+      color: #001937;
+      flex-wrap: wrap;
+      max-width: 900px;
+    }
+    .feature-item {
+      text-align: center;
+      max-width: 140px;
+    }
+    .feature-item i {
+      font-size: 48px;
+      color: #001937;
+      margin-bottom: 8px;
+    }
+
+    /* فوتر */
+    footer {
+      background-color: #001f3f;
+      font-size: 1em;
+      padding-top: 40px;
+      padding-bottom: 20px;
+      color: white;
+      margin-top: 60px;
+    }
+    .container-footer {
+      display: flex;
+      max-width: 1000px;
+      margin: 0 auto 30px auto;
+      gap: 40px;
+      flex-wrap: wrap;
+      padding: 0 20px;
+    }
+    .right-footer {
+      flex: 2;
+      padding: 0 20px;
+    }
+    .right-footer .title {
+      padding: 10px 0;
+      font-size: 1.2em;
+      font-weight: 700;
+      color: white;
+    }
+    .right-footer .des {
+      color: rgba(255, 255, 255, 0.7);
+      line-height: 1.9em;
+      font-size: 0.9em;
+    }
+    .left-footer {
+      flex: 1;
+      padding: 0 20px;
+    }
+    .left-footer .title {
+      padding: 10px 0;
+      font-size: 1.2em;
+      font-weight: 700;
+      color: white;
+    }
+    .socials {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 20px;
+    }
+    .socials a {
+      color: white;
+      font-size: 1.4em;
+      transition: color 0.3s ease;
+    }
+    .socials a:hover {
+      color: #ff6f61;
+    }
+    .bottom {
+      background-color: #2d3436;
+      text-align: center;
+      padding: 15px;
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 0.9em;
+    }
+  </style>
+</head>
+<body>
+
+
+<!--محصول-->
+<div class="container">
+  <div class="seller-box">
+    <div class="store-name">فروشنده: فروشگاه مون استایل</div>
+    <div class="satisfaction">رضایت خریداران: ۸۰٪</div>
+    <div class="price">۶۹۹,۰۰۰ تومان</div>
+    <button>افزودن به سبد خرید</button>
+  </div>
+
+  <div class="middle">
+    <div class="product-name">شومیز باکسی سها 3586</div>
+      <div class="rating">
+  <i class="fas fa-star" style="color: gold;"></i>
+  <i class="fas fa-star" style="color: gold;"></i>
+  <i class="fas fa-star" style="color: gold;"></i>
+  <i class="fas fa-star" style="color: gold;"></i>
+  <i class="far fa-star" style="color: gray;"></i>
+  <span>(امتیاز ۴ از ۵ - ۱۲ رأی)</span>
+</div>
+
+<style>
+  .rating i {
+    font-size: 12px; /* اندازه ستاره‌ها رو کوچیک میکنه */
+  }
+</style>
+
+
+    <div class="select-group">
+      <div>
+        <label for="size">سایز</label>
+        <select id="size" name="size">
+          <option value="38-40">۳۶-۳۸</option>
+          <option value="38-40">۳۸-۴۰</option>
+          <option value="40-42">۴۰-۴۲</option>
+        </select>
+      </div>
+      <div>
+        <label for="color">رنگ</label>
+        <select id="color" name="color">
+          <option value="red">زرد کره ای</option>
+          <option value="blue">آبی</option>
+          <option value="green">سبز</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="features-list">
+      <strong>ویژگی‌های محصول:</strong>
+      <ul>
+        <li>جنس: داکرون</li>
+        <li>نوع یقه: یقه شکاری</li>
+        <li>نوع آستین : آستین سه ربع و سر استین دوبل</li>
+        <li>راهنمای شستشو : قابل شستشو با ماشین لباسشویی</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="right">
+    <img src="./images/h1.jpg" alt="تصویر محصول" class="product-image" />
+    
+    </div>
+  </div>
+
+
+
+<!-- بخش ویژگی‌ها -->
+<section class="features" aria-label="ویژگی های فروشگاه">
+  <div class="feature-item">
+    <i class="fas fa-calendar-check"></i>
+    <p>ضمانت بازگشت کالا</p>
+  </div>
+  <div class="feature-item">
+    <i class="fas fa-check-circle"></i>
+    <p>ضمانت اصالت کالا</p>
+  </div>
+  <div class="feature-item">
+    <i class="fas fa-headset"></i>
+    <p>خدمات پس از فروش</p>
+  </div>
+  <div class="feature-item">
+    <i class="fas fa-shipping-fast"></i>
+    <p>تحویل سریع و آسان</p>
+  </div>
+</section>
+
+
+
+<!-- فوتر -->
+<footer>
+  <div class="container-footer">
+    <div class="right-footer">
+      <div class="title">درباره ما</div>
+      <div class="des">
+        فروشگاه اینترنتی مون استایل با هدف ارائه پوشاک باکیفیت، شیک و متناسب با سبک زندگی مدرن تأسیس شده است. این مجموعه با تمرکز بر طراحی روز، جزئیات دقیق و رضایت‌مندی مشتریان، تلاش دارد تجربه‌ای متفاوت و حرفه‌ای از خرید آنلاین را فراهم آورد. مون استایل با پایبندی به اصول کیفیت، تعهد و احترام به مشتری، همواره در مسیر بهبود خدمات و گسترش محصولات گام برمی‌دارد.
+      </div>
+    </div>
+    <div class="left-footer">
+      <div class="title">ما را در شبکه های اجتماعی دنبال کنید</div>
+      <div class="socials">
+        <a href="#" aria-label="توییتر"><i class="fab fa-twitter"></i></a>
+        <a href="#" aria-label="اینستاگرام"><i class="fab fa-instagram"></i></a>
+          <a href="#" aria-label="لینکدین"><i class="fab fa-linkedin"></i></a>
+          <a href="#" aria-label="تلگرام"><i class="fab fa-telegram-plane"></i></a>
+        </div>
+    </div>
+    </div>
+    <div class="bottom">
+      کلیه حقوق این وب سایت به مون استایل تعلق دارد 2025 ©
+    </div>
+  </footer>

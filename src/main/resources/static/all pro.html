@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>دسته‌بندی زنانه</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    /* تنظیمات عمومی */
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: Tahoma, sans-serif;
+      background: #fff;
+      padding: 20px;
+      direction: rtl;
+      margin: 0;
+    }
+
+    /* کانتینر محصولات */
+    .products-women {
+      width: 100%;
+      max-width: 1200px; /* حداکثر عرض برای بزرگ بودن صفحه */
+      margin: 0 auto;
+    }
+
+    /* گرید برای محصولات: 4 ستون */
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      text-align: center;
+    }
+
+    /* هر کارت محصول */
+    .product-card {
+      width: 100%;
+    }
+
+    /* عکس محصول */
+    .product-card img {
+      width: 100%;  /* عکس کل عرض کارت رو بگیره */
+      height: 320px;
+      object-fit: cover;
+      border-radius: 4px;
+      border: 1px solid #ddd;
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    /* نام محصول */
+    .product-name {
+      font-size: 14px;
+      color: #222;
+      margin-bottom: 4px;
+      line-height: 1.2;
+      min-height: 36px;
+    }
+
+    /* قیمت محصول */
+    .product-price {
+      font-size: 13px;
+      color: #555;
+      margin-bottom: 8px;
+    }
+
+    /* آیکون‌ها */
+    .icons {
+      background-color: #001937;
+      display: inline-flex;
+      justify-content: center;
+      gap: 15px;
+      padding: 6px 12px;
+      border-radius: 8px;
+      margin: 0 auto;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+      cursor: pointer;
+      width: fit-content;
+    }
+
+    .icons:hover {
+      background-color: #003366;
+      transform: scale(1.1) rotate(5deg);
+      box-shadow: 0 0 10px #00aaff;
+    }
+
+    .icons a {
+      color: #fff;
+      font-size: 18px;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .icons a:hover {
+      color: #ff4081;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    a:hover .product-name {
+      text-decoration: underline;
+    }
+
+  </style>
+</head>
+<body>
+
+  <section class="products-women">
+    <div class="grid-container">
+
+      <div class="product-card">
+        <a href="proh1.html">
+          <img src="images/h1.jpg" alt="شومیز باکسی سها 3586" />
+          <div class="product-name">شومیز باکسی سها 3586</div>
+          <div class="product-price">699 هزار تومان</div>
+        </a>
+        <div class="icons" role="group" aria-label="آیکون‌های علاقه‌مندی و سبد خرید">
+          <a href="#" title="افزودن به علاقه‌مندی"><i class="fas fa-heart"></i></a>
+          <a href="#" title="افزودن به سبد خرید"><i class="fas fa-shopping-cart"></i></a>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <a href="proh2.html">
+          <img src="images/h2.jpg" alt="شومیز شبدیس 9642" />
+          <div class="product-name">شومیز شبدیس 9642</div>
+          <div class="product-price">899 هزار تومان</div>
+        </a>
+        <div class="icons" role="group" aria-label="آیکون‌های علاقه‌مندی و سبد خرید">
+          <a href="#" title="افزودن به علاقه‌مندی"><i class="fas fa-heart"></i></a>
+          <a href="#" title="افزودن به سبد خرید"><i class="fas fa-shopping-cart"></i></a>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <a href="proh3.html">
+          <img src="images/h3.jpg" alt="شومیز آستین دکمه 7652" />
+          <div class="product-name">شومیز آستین دکمه 7652</div>
+          <div class="product-price">849 هزار تومان</div>
+        </a>
+        <div class="icons" role="group" aria-label="آیکون‌های علاقه‌مندی و سبد خرید">
+          <a href="#" title="افزودن به علاقه‌مندی"><i class="fas fa-heart"></i></a>
+          <a href="#" title="افزودن به سبد خرید"><i class="fas fa-shopping-cart"></i></a>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <a href="proh4.html">
+          <img src="images/h4.jpg" alt="شومیز کراپ مهرآوا 5067" />
+          <div class="product-name">شومیز کراپ مهرآوا 5067</div>
+          <div class="product-price">799 هزار تومان</div>
+        </a>
+        <div class="icons" role="group" aria-label="آیکون‌های علاقه‌مندی و سبد خرید">
+          <a href="#" title="افزودن به علاقه‌مندی"><i class="fas fa-heart"></i></a>
+          <a href="#" title="افزودن به سبد خرید"><i class="fas fa-shopping-cart"></i></a>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <a href="proh5.html">
+          <img src="images/h5.jpg" alt="شومیز گره ای ۵۴۰۰" />
+          <div class="product-name">شومیز گره ای ۵۴۰۰</div>
+          <div class="product-price">599 هزار تومان</div>
+        </a>
+        <div class="icons" role="group" aria-label="آیکون‌های علاقه‌مندی و سبد خرید">
+          <a href="#" title="افزودن به علاقه‌مندی"><i class="fas fa-heart"></i></a>
+          <a href="#" title="افزودن به سبد خرید"><i class="fas fa-shopping-cart"></i></a>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <a href="../../../../../../Downloads/Telegram%20Desktop/shop/shop/proh6.html">
+          <img src="images/h6.jpg" alt="شومیز مهرسو 2292" />
+          <div class="product-name">شومیز مهرسو 2292</div>
+          <div class="product-price">799 هزار تومان</div>
+        </a>
+        <div class="icons" role="group" aria-label="آیکون‌های علاقه‌مندی و سبد خرید">
+          <a href="#" title="افزودن به علاقه‌مندی"><i class="fas fa-heart"></i></a>
+          <a href="#" title="افزودن به سبد خرید"><i class="fas fa-shopping-cart"></i></a>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <a href="proh7.html">
+          <img src="images/h7.jpg" alt="شومیز جلو دکمه آون 9958" />
+          <div class="product-name">شومیز جلو دکمه آون 9958</div>
+          <div class="product-price">649 هزار تومان</div>
+        </a>
+        <div class="icons" role="group" aria-label="آیکون‌های علاقه‌مندی و سبد خرید">
+          <a href="#" title="افزودن به علاقه‌مندی"><i class="fas fa-heart"></i></a>
+          <a href="#" title="افزودن به سبد خرید"><i class="fas fa-shopping-cart"></i></a>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <a href="proh8.html">
+          <img src="images/h8.jpg" alt="شومیزساده 3244" />
+          <div class="product-name">شومیزساده 3244</div>
+          <div class="product-price">800 هزار تومان</div>
+        </a>
+        <div class="icons" role="group" aria-label="آیکون‌های علاقه‌مندی و سبد خرید">
+          <a href="#" title="افزودن به علاقه‌مندی"><i class="fas fa-heart"></i></a>
+          <a href="#" title="افزودن به سبد خرید"><i class="fas fa-shopping-cart"></i></a>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <a href="proh9.html">
+          <img src="images/h9.jpg" alt="شومیز رگه دوزی ۸۰۲۹" />
+          <div class="product-name">شومیز رگه دوزی ۸۰۲۹</div>
+          <div class="product-price">1,039 هزار تومان</div>
+        </a>
+        <div class="icons" role="group" aria-label="آیکون‌های علاقه‌مندی و سبد خرید">
+          <a href="#" title="افزودن به علاقه‌مندی"><i class="fas fa-heart"></i></a>
+          <a href="#" title="افزودن به سبد خرید"><i class="fas fa-shopping-cart"></i></a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</body>
+</html>

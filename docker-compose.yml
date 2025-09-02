@@ -1,0 +1,25 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: shop-mysql
+    ports:
+      - "3306:3306"                # change left side to 3307 if 3306 is busy
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: moon-style  # DB will be created on first run
+      MYSQL_USER: shop
+      MYSQL_PASSWORD: shop123
+    command: >
+      --default-authentication-plugin=mysql_native_password
+      --character-set-server=utf8mb4
+      --collation-server=utf8mb4_unicode_ci
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uroot", "-proot"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  mysql_data:
