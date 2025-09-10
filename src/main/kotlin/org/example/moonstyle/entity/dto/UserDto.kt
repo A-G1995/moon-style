@@ -1,4 +1,4 @@
-package org.example.moonstyle.controller.DTO
+package org.example.moonstyle.entity.dto
 
 data class UserDto(
     val id: Int,
