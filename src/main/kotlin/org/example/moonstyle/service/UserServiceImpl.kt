@@ -11,7 +11,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.web.server.ResponseStatusException
 
 @Service
-class UserServiceImp(
+class UserServiceImpl(
     private val repository: UserRepository,
     private val sessionStore: SessionStore
 ) : UserService {
