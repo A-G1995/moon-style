@@ -23,7 +23,7 @@ class UserServiceImp(
         val user = repository.save(
             UserEntity(
                 email = email,
-                password = req.password,              // PLAIN TEXT (demo only)
+                password = req.password,
                 fullName = req.fullName.trim(),
                 phoneNumber = req.phoneNumber,
                 nationalNumber = req.nationalNumber.trim()

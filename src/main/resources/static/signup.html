@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>ثبت‌نام | Moon Style</title>
+    <link rel="stylesheet" href="/css/style.css" />
+    <style>
+        body{font-family:sans-serif;background:#f7f7f7;margin:0}
+        .container{max-width:420px;margin:6vh auto;padding:24px;background:#fff;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,.06)}
+        h1{font-size:20px;margin:0 0 16px}
+        .field{display:flex;flex-direction:column;margin-bottom:12px}
+        label{font-size:13px;margin-bottom:6px}
+        input{padding:10px;border:1px solid #ddd;border-radius:8px}
+        .actions{margin-top:16px}
+        .btn{width:100%;padding:10px;border:none;border-radius:8px;background:#111;color:#fff;cursor:pointer}
+        .link{font-size:13px;text-decoration:none;color:#0a58ca;display:block;text-align:center;margin-top:8px}
+        .error{color:#c62828;background:#ffebee;border:1px solid #ffcdd2;padding:8px 10px;border-radius:8px;margin-bottom:12px;display:none}
+    </style>
+</head>
+<body>
+<main class="container">
+    <h1>ثبت‌نام</h1>
+
+    <div id="errorBox" class="error"></div>
+
+    <form id="signup-form" autocomplete="on">
+        <div class="field">
+            <label for="email">ایمیل</label>
+            <input id="email" type="text" placeholder="example@email.com" required />
+        </div>
+
+        <div class="field">
+            <label for="fullName">نام کامل</label>
+            <input id="fullName" type="text" placeholder="نام و نام خانوادگی" required />
+        </div>
+
+        <div class="field">
+            <label for="password">رمز عبور</label>
+            <input id="password" type="password" placeholder="*******" required />
+        </div>
+
+        <div class="field">
+            <label for="phoneNumber">شماره تلفن</label>
+            <input id="phoneNumber" type="text" placeholder="0912..." required />
+        </div>
+
+        <div class="field">
+            <label for="nationalNumber">کد ملی</label>
+            <input id="nationalNumber" type="text" placeholder="کد ملی" required />
+        </div>
+
+        <div class="actions">
+            <button id="signupBtn" class="btn" type="submit">ثبت‌نام</button>
+        </div>
+
+        <a class="link" href="/login.html">قبلاً حساب ساخته‌اید؟ ورود</a>
+    </form>
+</main>
+
+<!-- external signup logic -->
+<script src="/js/signup.js"></script>
+</body>
+</html>

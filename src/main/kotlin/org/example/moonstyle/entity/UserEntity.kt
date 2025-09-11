@@ -1,6 +1,7 @@
 package org.example.moonstyle.entity
 
 import jakarta.persistence.*
+import org.example.moonstyle.DigitsToEnglishConverter
 import org.springframework.data.annotation.CreatedDate
 import java.util.Date
 
@@ -27,10 +28,12 @@ data class UserEntity(
     @Column(nullable = false)
     val fullName: String,
     
-    @Column(nullable = false)
+    @Column(nullable = false, length = 11)
+    @Convert(converter = DigitsToEnglishConverter::class)
     val phoneNumber: String,
     
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = true,  length = 10)
+    @Convert(converter = DigitsToEnglishConverter::class)
     val nationalNumber: String,
     
     @Column(nullable = false)
