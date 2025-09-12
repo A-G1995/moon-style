@@ -264,6 +264,11 @@
       کلیه حقوق این وب سایت به مون استایل تعلق دارد © 2025
     </div>
   </footer>
-
+  <script>
+      document.querySelector('.search-button')?.addEventListener('click', ()=>{
+          const q = document.querySelector('.search-input')?.value?.trim() || '';
+          location.href = '/all-products.html?q=' + encodeURIComponent(q);
+      });
+  </script>
 </body>
 </html>

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>دسته‌بندی زنانه</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+        /* تنظیمات عمومی */
+        * { box-sizing: border-box; }
+        body {
+            font-family: Tahoma, sans-serif;
+            background: #fff;
+            padding: 20px;
+            direction: rtl;
+            margin: 0;
+        }
+
+        /* کانتینر محصولات */
+        .products-women {
+            width: 100%;
+            max-width: 1200px; /* حداکثر عرض برای بزرگ بودن صفحه */
+            margin: 0 auto;
+        }
+
+        /* گرید برای محصولات: 4 ستون */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            text-align: center;
+        }
+
+        /* هر کارت محصول */
+        .product-card { width: 100%; }
+
+        /* عکس محصول */
+        .product-card img {
+            width: 100%;
+            height: 320px;
+            object-fit: cover;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        /* نام محصول */
+        .product-name {
+            font-size: 14px;
+            color: #222;
+            margin-bottom: 4px;
+            line-height: 1.2;
+            min-height: 36px;
+        }
+
+        /* قیمت محصول */
+        .product-price {
+            font-size: 13px;
+            color: #555;
+            margin-bottom: 8px;
+        }
+
+        /* آیکون‌ها */
+        .icons {
+            background-color: #001937;
+            display: inline-flex;
+            justify-content: center;
+            gap: 15px;
+            padding: 6px 12px;
+            border-radius: 8px;
+            margin: 0 auto;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            cursor: pointer;
+            width: fit-content;
+        }
+        .icons:hover {
+            background-color: #003366;
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 0 10px #00aaff;
+        }
+        .icons a {
+            color: #fff;
+            font-size: 18px;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .icons a:hover { color: #ff4081; }
+
+        a { color: inherit; text-decoration: none; }
+        a:hover .product-name { text-decoration: underline; }
+
+        /* خطا */
+        #productsError {
+            display: none;
+            color: #c62828;
+            background: #ffebee;
+            border: 1px solid #ffcdd2;
+            padding: 10px;
+            border-radius: 8px;
+            margin: 12px 0 20px;
+        }
+    </style>
+</head>
+<body>
+
+<section class="products-women">
+    <!-- باکس خطا -->
+    <div id="productsError"></div>
+
+    <!-- گرید محصولات: اسکریپت اینجا را پر می‌کند -->
+    <div id="productsGrid" class="grid-container">
+        <!-- کارت‌ها به صورت پویا از /products لود می‌شوند -->
+    </div>
+</section>
+
+<!-- لودر محصولات -->
+<script src="/js/all-products.js"></script>
+</body>
+</html>

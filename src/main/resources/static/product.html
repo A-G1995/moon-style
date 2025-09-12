@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>جزئیات محصول | Moon Style</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>
+    <style>
+        body{font-family:Tahoma,sans-serif;background:#f7f7f7;margin:0}
+        .container{max-width:980px;margin:24px auto;padding:16px;display:flex;gap:16px;align-items:flex-start}
+        .left,.middle,.seller-box{background:#fff;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,.07);padding:20px}
+        .left{width:360px;height:420px;display:flex;align-items:center;justify-content:center}
+        .product-image{max-width:100%;max-height:100%;object-fit:contain}
+        .middle{flex:1}
+        .product-name{font-weight:bold;font-size:20px;margin-bottom:10px;color:#001937}
+        .price{font-size:22px;font-weight:bold;color:#d62828;margin:16px 0}
+        .seller-box{width:320px}
+        .seller-box button{width:100%;background:#001937;color:#fff;border:none;padding:12px 0;cursor:pointer;font-size:16px;border-radius:6px}
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="left">
+        <img class="product-image" src="/images/placeholder.jpg" alt=""/>
+    </div>
+
+    <div class="middle">
+        <div class="product-name">...</div>
+        <div class="price">...</div>
+        <div class="attrs">
+            <div>رنگ: <span class="color">...</span></div>
+            <div>سایز: <span class="size">...</span></div>
+            <div>دسته‌بندی: <span class="category">...</span></div>
+            <div>موجودی: <span class="stock">...</span></div>
+        </div>
+    </div>
+
+    <div class="seller-box">
+        <div class="store-name">فروشنده: مون استایل</div>
+        <div class="satisfaction">رضایت خریداران: ۸۰٪</div>
+        <div class="price" id="priceBox">...</div>
+        <button id="addBtn">افزودن به سبد خرید</button>
+    </div>
+</div>
+
+<script src="/js/product.js"></script>
+</body>
+</html>
