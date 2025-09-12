@@ -79,7 +79,7 @@
             card.className = 'product-card';
             card.innerHTML = `
         <a href="/product.html?id=${p.id}">
-          <img src="${p.imageUrl || '/images/placeholder.jpg'}" alt="${p.title || ''}" />
+          <img src="${p.imageUrl || '/images/placeholder.jpg.jpg'}" alt="${p.title || ''}" />
           <div class="product-name">${p.title || ''}</div>
           <div class="product-price">${(p.price ?? '').toString()} تومان</div>
         </a>

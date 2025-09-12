@@ -18,7 +18,7 @@
     document.querySelector('.category').textContent = p.category || '-';
     document.querySelector('.stock').textContent = p.stockQty ?? '-';
     const img = document.querySelector('.product-image');
-    if (img) img.src = p.imageUrl || '/images/placeholder.jpg';
+    if (img) img.src = p.imageUrl || '/images/placeholder.jpg.jpg';
 
     // افزودن به سبد
     document.getElementById('addBtn')?.addEventListener('click', async () => {
