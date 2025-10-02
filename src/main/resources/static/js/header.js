@@ -91,3 +91,25 @@
         await renderLoggedIn(sess);
     })();
 })();
+
+window.addEventListener('cart-updated', async () => {
+    const sid = localStorage.getItem('sessionId');
+    if (!sid) return;
+
+    try {
+        const r = await fetch('/cart', { headers: { 'X-Session-Id': sid } });
+        if (!r.ok) return;
+        const j = await r.json();
+        const count = Array.isArray(j.items) ? j.items.reduce((a,it)=> a + (it.quantity || 0), 0) : 0;
+
+        // لینک سبد در هدر را پیدا و فقط عددش را بروزرسانی کن
+        const link = document.querySelector('#siteHeader .ms-cart');
+        if (link) {
+            link.textContent = `سبد خرید (${count})`;
+            link.setAttribute('href', '/cart.html');
+        }
+    } catch (e) {
+        // در صورت خطا کاری نکنیم تا UI فعلی بهم نریزد
+        console.debug('[header] cart-updated refresh skipped:', e);
+    }
+});
