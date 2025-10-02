@@ -3,6 +3,7 @@ package org.example.moonstyle.entity
 import jakarta.persistence.*
 import org.example.moonstyle.DigitsToEnglishConverter
 import org.springframework.data.annotation.CreatedDate
+import java.time.LocalDate
 import java.util.Date
 
 
@@ -27,6 +28,9 @@ data class UserEntity(
     
     @Column(nullable = false)
     val fullName: String,
+    
+    @Column(name="birth_date")
+    val birthDate: LocalDate? = null,
     
     @Column(nullable = false, length = 11)
     @Convert(converter = DigitsToEnglishConverter::class)
