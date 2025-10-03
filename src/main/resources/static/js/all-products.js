@@ -39,7 +39,7 @@
         catch { throw new Error('پاسخ سرور JSON نیست'); }
     }
 
-    // فقط فیلترهای واقعی؛ page/size/sort حذف شدند
+    // فقط فیلترهای واقعی؛ بدون q و بدون page/size
     function buildQueryFromUrl() {
         const params = new URLSearchParams(location.search);
         const keys = ['q','color','size','category','priceMin','priceMax']; // بدون page/size
@@ -75,7 +75,14 @@
     function renderProducts(items) {
         grid.innerHTML = '';
         if (!Array.isArray(items) || items.length === 0) {
-            grid.innerHTML = '<div style="padding:12px">محصولی یافت نشد</div>';
+            grid.innerHTML = `
+        <div style="padding:12px">
+          هیچ محصولی با این فیلترها پیدا نشد.
+          <button id="clearFiltersBtn" style="margin-inline-start:8px;padding:6px 10px;border:0;border-radius:8px;background:#eee;cursor:pointer">
+            حذف فیلترها
+          </button>
+        </div>`;
+            document.getElementById('clearFiltersBtn')?.addEventListener('click', () => { location.search = ''; });
             return;
         }
         const frag = document.createDocumentFragment();
@@ -116,20 +123,14 @@
         clearError(); showLoading();
         try {
             const qs = buildQueryFromUrl();
-            let data = await fetchJson('/products' + qs);
+            const url = '/products' + qs;        // اگر qs خالی باشد: همهٔ محصولات
+            let data = await fetchJson(url);
 
-            // اگر به هر دلیل ساختار غیرآرایه بود، تلاش می‌کنیم آرایه پیدا کنیم (ایمن)
-            if (!Array.isArray(data)) {
-                if (Array.isArray(data.content)) data = data.content; else data = [];
-            }
+            // اگر سرور Page برگرداند، آرایه‌اش را جدا کنیم؛ وگرنه همان data (آرایه)
+            const items = Array.isArray(data) ? data : (Array.isArray(data?.content) ? data.content : []);
 
-            if (data.length === 0 && qs) {
-                // اگر با فیلتر چیزی نبود، یک‌بار بدون فیلتر هم تست کنیم
-                data = await fetchJson('/products');
-                if (!Array.isArray(data)) data = [];
-            }
-
-            renderProducts(data);
+            // ❌ هیچ fallbackی به «همهٔ محصولات» در صورت نتیجه صفر وجود ندارد
+            renderProducts(items);
 
             grid.addEventListener('click', (e)=>{
                 const btn = e.target.closest('.add-to-cart');
