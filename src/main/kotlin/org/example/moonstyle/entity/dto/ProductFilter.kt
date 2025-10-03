@@ -8,8 +8,8 @@ data class ProductFilter(
     val color: String? = null,
     val size: String? = null,
     val category: String? = null,
-    val priceMin: BigDecimal? = null,
-    val priceMax: BigDecimal? = null,
+    val priceMin: Long? = null,
+    val priceMax: Long? = null,
     val page: Int = 0,
     val sizePage: Int = 20,
     val sort: String? = null // e.g. "price,asc" or "price,desc"

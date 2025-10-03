@@ -1,6 +1,7 @@
 package org.example.moonstyle.entity
 
 import jakarta.persistence.*
+import org.example.moonstyle.entity.dto.ProductDto
 import java.time.Instant
 
 @Entity
@@ -62,3 +63,14 @@ data class ProductEntity(
         updatedAt = Instant.now()
     }
 }
+
+fun ProductEntity.toDto() = ProductDto(
+    id = this.id!!,
+    title = this.title,
+    price = this.price,
+    imageUrl = this.imageUrl,
+    color = this.color,
+    size = this.size,
+    category = this.category,
+    stockQty = this.stockQty
+)

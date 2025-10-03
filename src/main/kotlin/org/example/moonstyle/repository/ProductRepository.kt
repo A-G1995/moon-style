@@ -7,7 +7,8 @@ import org.springframework.data.repository.query.Param
 
 interface ProductRepository : JpaRepository<ProductEntity, Int> {
     
-    @Query("""
+    @Query(
+        """
         SELECT p FROM ProductEntity p
         WHERE p.isActive = true
           AND (:q IS NULL OR LOWER(p.title) LIKE LOWER(CONCAT('%', :q, '%')))
@@ -16,7 +17,8 @@ interface ProductRepository : JpaRepository<ProductEntity, Int> {
           AND (:category IS NULL OR p.category = :category)
           AND (:minPrice IS NULL OR p.price >= :minPrice)
           AND (:maxPrice IS NULL OR p.price <= :maxPrice)
-    """)
+    """
+    )
     fun search(
         @Param("q") q: String?,
         @Param("color") color: String?,
@@ -26,11 +28,13 @@ interface ProductRepository : JpaRepository<ProductEntity, Int> {
         @Param("maxPrice") maxPrice: Long?
     ): List<ProductEntity>
     
-    @Query("""
+    @Query(
+        """
         SELECT p FROM ProductEntity p
         WHERE p.isActive = true AND p.price BETWEEN :minAmt AND :maxAmt
         ORDER BY p.price ASC
-    """)
+    """
+    )
     fun findByPriceRange(
         @Param("minAmt") minAmt: Long,
         @Param("maxAmt") maxAmt: Long
