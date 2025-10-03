@@ -1,25 +1,25 @@
-// /js/all-products.js
+// /js/search.js
 (function () {
-    if (window.__allProductsBooted) return;
-    window.__allProductsBooted = true;
+    if (window.__searchBooted) return;
+    window.__searchBooted = true;
 
-    const grid = document.getElementById('productsGrid') || document.querySelector('.grid-container');
-    let errBox = document.getElementById('productsError');
-    if (!grid) { console.error('[all-products] grid container not found'); return; }
+    const grid = document.getElementById('resultsGrid');
+    let errBox = document.getElementById('searchError');
+    if (!grid) { console.error('[search] results grid not found'); return; }
     if (!errBox) {
         errBox = document.createElement('div');
-        errBox.id = 'productsError';
+        errBox.id = 'searchError';
         errBox.style.cssText = 'display:none;color:#c62828;background:#ffebee;border:1px solid #ffcdd2;padding:10px;border-radius:8px;margin:12px 0';
         grid.parentElement?.insertBefore(errBox, grid);
     }
 
-    const LOADING_ID = '__products_loading__';
+    const LOADING_ID = '__search_loading__';
     const showLoading = () => {
         if (!document.getElementById(LOADING_ID)) {
             const el = document.createElement('div');
             el.id = LOADING_ID;
             el.style.cssText = 'padding:12px;font-size:14px;color:#555';
-            el.textContent = 'در حال بارگذاری محصولات...';
+            el.textContent = 'در حال جستجو...';
             grid.appendChild(el);
         }
     };
@@ -33,16 +33,16 @@
         if (!res.ok) {
             let msg = `HTTP ${res.status}`;
             try { const j = await res.json(); if (j?.message || j?.error) msg += ` - ${j.message || j.error}`; } catch {}
-            throw new Error('خطا در دریافت محصولات: ' + msg);
+            throw new Error('خطا در دریافت نتایج: ' + msg);
         }
         try { return await res.json(); }
         catch { throw new Error('پاسخ سرور JSON نیست'); }
     }
 
-    // فقط فیلترهای واقعی؛ page/size/sort حذف شدند
+    // فقط کلیدهای واقعی؛ page/size حذف
     function buildQueryFromUrl() {
         const params = new URLSearchParams(location.search);
-        const keys = ['q','color','size','category','priceMin','priceMax']; // بدون page/size
+        const keys = ['q','color','size','category','priceMin','priceMax'];
         const qs = [];
         for (const k of keys) {
             const v = params.get(k);
@@ -51,7 +51,7 @@
         return qs.length ? `?${qs.join('&')}` : '';
     }
 
-    function productCardHtml(p) {
+    function cardHtml(p) {
         const id = p.id;
         const title = p.title || '';
         const price = (p.price ?? '').toString();
@@ -72,27 +72,27 @@
     `;
     }
 
-    function renderProducts(items) {
+    function render(items) {
         grid.innerHTML = '';
         if (!Array.isArray(items) || items.length === 0) {
-            grid.innerHTML = '<div style="padding:12px">محصولی یافت نشد</div>';
+            grid.innerHTML = '<div style="padding:12px">موردی یافت نشد</div>';
             return;
         }
         const frag = document.createDocumentFragment();
         for (const p of items) {
             const wrap = document.createElement('div');
-            wrap.innerHTML = productCardHtml(p);
+            wrap.innerHTML = cardHtml(p);
             frag.appendChild(wrap.firstElementChild);
         }
         grid.appendChild(frag);
     }
 
-    async function handleAddToCart(btn) {
+    async function addToCart(btn) {
         const sid = localStorage.getItem('sessionId');
         if (!sid) { alert('ابتدا وارد شوید'); location.href='/login.html'; return; }
         if (btn.dataset.busy === '1') return;
         btn.dataset.busy = '1'; btn.style.opacity = '0.6';
-        try {
+        try{
             const r = await fetch('/cart/items', {
                 method:'POST',
                 headers:{'Content-Type':'application/json','X-Session-Id':sid},
@@ -105,11 +105,8 @@
             }
             window.dispatchEvent(new CustomEvent('cart-updated'));
             alert('به سبد افزوده شد');
-        } catch(e) {
-            console.error(e); alert('مشکل در ارتباط با سرور');
-        } finally {
-            btn.dataset.busy='0'; btn.style.opacity='';
-        }
+        }catch(e){ console.error(e); alert('خطای سرور'); }
+        finally{ btn.dataset.busy='0'; btn.style.opacity=''; }
     }
 
     async function load() {
@@ -118,28 +115,27 @@
             const qs = buildQueryFromUrl();
             let data = await fetchJson('/products' + qs);
 
-            // اگر به هر دلیل ساختار غیرآرایه بود، تلاش می‌کنیم آرایه پیدا کنیم (ایمن)
             if (!Array.isArray(data)) {
                 if (Array.isArray(data.content)) data = data.content; else data = [];
             }
 
             if (data.length === 0 && qs) {
-                // اگر با فیلتر چیزی نبود، یک‌بار بدون فیلتر هم تست کنیم
+                // اگر با فیلتر نتیجه نبود، یک‌بار بدون فیلتر هم امتحان کن
                 data = await fetchJson('/products');
                 if (!Array.isArray(data)) data = [];
             }
 
-            renderProducts(data);
+            render(data);
 
             grid.addEventListener('click', (e)=>{
                 const btn = e.target.closest('.add-to-cart');
                 if (!btn) return;
                 e.preventDefault();
-                handleAddToCart(btn);
+                addToCart(btn);
             });
 
         } catch (err) {
-            showError(err.message || 'خطای نامشخص در بارگذاری');
+            showError(err.message || 'خطای نامشخص');
         } finally {
             hideLoading();
         }

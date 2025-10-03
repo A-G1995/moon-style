@@ -12,20 +12,16 @@ data class Session(
     val createdAt: Instant
 )
 
+data class SessionData(val userId: Int, val isAdmin: Boolean)
+
 @Component
 class SessionStore {
-    private val sessions = ConcurrentHashMap<String, Session>()
-    
-    fun create(userId: Int?, isAdmin: Boolean): Session {
+    private val map = ConcurrentHashMap<String, SessionData>()
+    fun create(userId: Int, isAdmin: Boolean): String {
         val sid = UUID.randomUUID().toString()
-        val s = Session(sid, userId, isAdmin, Instant.now())
-        sessions[sid] = s
-        return s
+        map[sid] = SessionData(userId, isAdmin)
+        return sid
     }
-    
-    fun get(sessionId: String?): Session? = sessionId?.let { sessions[it] }
-    
-    fun delete(sessionId: String?) {
-        if (sessionId != null) sessions.remove(sessionId)
-    }
+    fun get(sessionId: String?): SessionData? = if (sessionId == null) null else map[sessionId]
+    fun remove(sessionId: String?) { if (sessionId != null) map.remove(sessionId) }
 }

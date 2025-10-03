@@ -1,122 +1,134 @@
 <!DOCTYPE html>
-<html lang="fa">
+<html lang="fa" dir="rtl">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>دسته‌بندی زنانه</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <title>همهٔ محصولات | Moon Style</title>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+
     <style>
-        /* تنظیمات عمومی */
-        * { box-sizing: border-box; }
-        body {
-            font-family: Tahoma, sans-serif;
-            background: #fff;
-            padding: 20px;
-            direction: rtl;
-            margin: 0;
-        }
+        body{font-family:Tahoma,sans-serif;background:#f7f7f7;margin:0}
+        .wrap{max-width:1200px;margin:24px auto;padding:0 16px}
+        .card{background:#fff;border-radius:12px;box-shadow:0 6px 20px rgba(0,0,0,.06);padding:16px}
+        h1{font-size:18px;margin:0 0 12px;color:#001937}
 
-        /* کانتینر محصولات */
-        .products-women {
-            width: 100%;
-            max-width: 1200px; /* حداکثر عرض برای بزرگ بودن صفحه */
-            margin: 0 auto;
-        }
+        /* فیلترها */
+        .filters{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;align-items:end}
+        .filters .field{display:flex;flex-direction:column}
+        .filters label{font-size:12px;color:#555;margin-bottom:6px}
+        .filters input,.filters select{padding:8px;border:1px solid #ddd;border-radius:8px;background:#fff}
+        .filters .actions{grid-column:1/-1;display:flex;gap:8px;justify-content:flex-end;margin-top:8px}
+        .btn{border:0;border-radius:8px;padding:8px 12px;cursor:pointer}
+        .primary{background:#001937;color:#fff}
+        .ghost{background:#eee}
 
-        /* گرید برای محصولات: 4 ستون */
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
-            text-align: center;
-        }
+        /* محصولات */
+        #productsError{display:none;color:#c62828;background:#ffebee;border:1px solid #ffcdd2;padding:10px;border-radius:8px;margin:12px 0}
+        #productsGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+        .product-card{width:100%}
+        .product-card img{width:100%;height:320px;object-fit:cover;border-radius:6px;border:1px solid #eee;display:block;margin-bottom:8px}
+        .product-name{font-size:14px;color:#222;margin-bottom:4px;line-height:1.3;min-height:36px}
+        .product-price{font-size:13px;color:#d62828;font-weight:700;margin-bottom:8px}
+        .icons{background:#001937;display:inline-flex;gap:12px;padding:6px 12px;border-radius:8px}
+        .icons a{color:#fff;font-size:18px}
+        .icons a:hover{color:#ff4081}
 
-        /* هر کارت محصول */
-        .product-card { width: 100%; }
-
-        /* عکس محصول */
-        .product-card img {
-            width: 100%;
-            height: 320px;
-            object-fit: cover;
-            border-radius: 4px;
-            border: 1px solid #ddd;
-            display: block;
-            margin-bottom: 10px;
-        }
-
-        /* نام محصول */
-        .product-name {
-            font-size: 14px;
-            color: #222;
-            margin-bottom: 4px;
-            line-height: 1.2;
-            min-height: 36px;
-        }
-
-        /* قیمت محصول */
-        .product-price {
-            font-size: 13px;
-            color: #555;
-            margin-bottom: 8px;
-        }
-
-        /* آیکون‌ها */
-        .icons {
-            background-color: #001937;
-            display: inline-flex;
-            justify-content: center;
-            gap: 15px;
-            padding: 6px 12px;
-            border-radius: 8px;
-            margin: 0 auto;
-            transition: background-color 0.3s ease, transform 0.3s ease;
-            cursor: pointer;
-            width: fit-content;
-        }
-        .icons:hover {
-            background-color: #003366;
-            transform: scale(1.1) rotate(5deg);
-            box-shadow: 0 0 10px #00aaff;
-        }
-        .icons a {
-            color: #fff;
-            font-size: 18px;
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-        .icons a:hover { color: #ff4081; }
-
-        a { color: inherit; text-decoration: none; }
-        a:hover .product-name { text-decoration: underline; }
-
-        /* خطا */
-        #productsError {
-            display: none;
-            color: #c62828;
-            background: #ffebee;
-            border: 1px solid #ffcdd2;
-            padding: 10px;
-            border-radius: 8px;
-            margin: 12px 0 20px;
-        }
+        @media (max-width:1100px){ #productsGrid{grid-template-columns:repeat(3,1fr)} }
+        @media (max-width:760px){ #productsGrid{grid-template-columns:repeat(2,1fr)} .filters{grid-template-columns:repeat(2,1fr)} }
+        @media (max-width:480px){ #productsGrid{grid-template-columns:1fr} .filters{grid-template-columns:1fr} }
     </style>
 </head>
 <body>
 <div id="siteHeader"></div>
-<section class="products-women">
-    <!-- باکس خطا -->
-    <div id="productsError"></div>
 
-    <!-- گرید محصولات: اسکریپت اینجا را پر می‌کند -->
-    <div id="productsGrid" class="grid-container">
-        <!-- کارت‌ها به صورت پویا از /products لود می‌شوند -->
+<div class="wrap">
+    <div class="card">
+        <h1>همهٔ محصولات</h1>
+
+        <!-- فیلترها -->
+        <form id="filters" class="filters" onsubmit="event.preventDefault(); applyFilters();">
+            <div class="field">
+                <label for="color">رنگ</label>
+                <select id="color" name="color">
+                    <option value="">همه‌رنگ‌ها</option>
+                    <option>مشکی</option>
+                    <option>سفید</option>
+                    <option>سرمه‌ای</option>
+                    <option>سبز</option>
+                    <option>کرم</option>
+                </select>
+            </div>
+            <div class="field">
+                <label for="size">سایز</label>
+                <select id="size" name="size">
+                    <option value="">همه‌سایزها</option>
+                    <option>S</option><option>M</option><option>L</option><option>XL</option><option>فری</option>
+                </select>
+            </div>
+            <div class="field">
+                <label for="category">دسته‌بندی</label>
+                <select id="category" name="category">
+                    <option value="">همه</option>
+                    <option>بلوز</option>
+                    <option>شومیز</option>
+                    <option>مانتو</option>
+                    <option>شلوار</option>
+                </select>
+            </div>
+            <div class="field">
+                <label for="priceMin">کمترین قیمت</label>
+                <input id="priceMin" name="priceMin" type="number" min="0" placeholder="مثلاً 500000">
+            </div>
+            <div class="field">
+                <label for="priceMax">بیشترین قیمت</label>
+                <input id="priceMax" name="priceMax" type="number" min="0" placeholder="مثلاً 1200000">
+            </div>
+
+            <div class="actions">
+                <button type="button" class="btn ghost" onclick="clearFilters()">حذف فیلترها</button>
+                <button type="submit" class="btn primary">اعمال فیلتر</button>
+            </div>
+        </form>
+
+        <!-- خطا + گرید محصولات -->
+        <div id="productsError"></div>
+        <section id="productsGrid"></section>
     </div>
-</section>
+</div>
 
-<!-- لودر محصولات -->
-<script src="/js/all-products.js"></script>
+<script>
+    // مقداردهی اولیه‌ی فیلدهای فرم بر اساس querystring فعلی
+    (function hydrateFiltersFromUrl(){
+        const params = new URLSearchParams(location.search);
+        for (const [k,v] of params.entries()) {
+            const el = document.querySelector(`[name="${k}"]`);
+            if (el) el.value = v;
+        }
+    })();
+
+    function applyFilters(){
+        const form = document.getElementById('filters');
+        const fd = new FormData(form);
+        // فقط کلیدهای واقعی؛ چیزی به نام page/size تولید نمی‌کنیم
+        const keys = ['q','color','size','category','priceMin','priceMax'];
+        const params = new URLSearchParams();
+        keys.forEach(k => {
+            const val = (fd.get(k) || '').toString().trim();
+            if (val) params.set(k, val);
+        });
+        // رفتن به URL با پارامترها (JS all-products.js خودش بارگیری می‌کند)
+        location.search = params.toString() ? `?${params}` : '';
+    }
+
+    function clearFilters(){
+        document.getElementById('filters').reset();
+        // پاک کردن querystring
+        location.search = '';
+    }
+</script>
+
 <script src="/js/header.js"></script>
-<script src="/js/account.js"></script>
+<script src="/js/all-products.js"></script>
 </body>
 </html>

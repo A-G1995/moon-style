@@ -12,43 +12,50 @@ import org.springframework.web.server.ResponseStatusException
 
 @Service
 class UserServiceImpl(
-    private val repository: UserRepository,
-    private val sessionStore: SessionStore
+    private val userRepo: UserRepository,
+    private val sessions: SessionStore
 ) : UserService {
+    
     override fun signup(req: SignupRequest): AuthResponse {
-        val email = req.email.lowercase().trim()
-        if (repository.existsByEmail(email)) {
-            throw ResponseStatusException(HttpStatus.CONFLICT, "Email already registered")
+        // چک تکراری‌نبودن ایمیل
+        if (userRepo.findByEmail(req.email) != null) {
+            throw ResponseStatusException(HttpStatus.CONFLICT, "این ایمیل قبلاً ثبت شده است")
         }
-        val user = repository.save(
+        val u = userRepo.save(
             UserEntity(
-                email = email,
+                email = req.email.trim(),
                 password = req.password,
                 fullName = req.fullName.trim(),
-                phoneNumber = req.phoneNumber,
-                nationalNumber = req.nationalNumber.trim()
+                phoneNumber = req.phoneNumber.trim(),
+                nationalNumber = req.nationalNumber.trim(),
+                isAdmin = false
             )
         )
-        val s = sessionStore.create(user.id, user.isAdmin)
-        return AuthResponse(userId = user.id, sessionId = s.sessionId, isAdmin = user.isAdmin)
+        val sid = sessions.create(u.id!!, u.isAdmin)
+        return AuthResponse(
+            sessionId = sid,
+            userId = u.id!!,
+            email = u.email,
+            fullName = u.fullName,
+            isAdmin = u.isAdmin
+        )
     }
     
     override fun login(req: LoginRequest): AuthResponse {
-        val email = req.email.lowercase().trim()
-        val user = repository.findByEmail(email)
-            ?: throw ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid credentials")
-        if (req.password != user.password) {
-            throw ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid credentials")
-        }
-        val s = sessionStore.create(user.id, user.isAdmin)
-        return AuthResponse(userId = user.id, sessionId = s.sessionId, isAdmin = user.isAdmin)
+        val u = userRepo.findByEmailAndPassword(req.email.trim(), req.password)
+            ?: throw ResponseStatusException(HttpStatus.UNAUTHORIZED, "ایمیل یا رمز عبور نادرست است")
+        
+        val sid = sessions.create(u.id!!, u.isAdmin)
+        return AuthResponse(
+            sessionId = sid,
+            userId = u.id!!,
+            email = u.email,
+            fullName = u.fullName,
+            isAdmin = u.isAdmin
+        )
     }
     
-    override fun logout(sessionId: String?) {
-        if (sessionId.isNullOrBlank()) {
-            throw ResponseStatusException(HttpStatus.BAD_REQUEST, "Missing X-Session-Id")
-        }
-        sessionStore.delete(sessionId)
+    override fun logout(sessionId: String) {
+        sessions.remove(sessionId)
     }
-    
 }

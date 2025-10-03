@@ -7,5 +7,5 @@ import org.example.moonstyle.entity.dto.SignupRequest
 interface UserService {
     fun signup(req: SignupRequest): AuthResponse
     fun login(req: LoginRequest): AuthResponse
-    fun logout(sessionId: String?)
+    fun logout(sessionId: String)
 }

@@ -1,274 +1,135 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>پنل کاربری مون استایل</title>
-  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
-  <style>
-    body {
-      font-family: 'iran;
-      background-color: #f9f9f9;
-      margin: 0;
-      padding: 0;
-      color: #000;
-    }
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <title>جستجوی محصول | Moon Style</title>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
 
-    a {
-      text-decoration: none;
-      color: inherit;
-    }
+    <style>
+        body{font-family:Tahoma,sans-serif;background:#f7f7f7;margin:0}
+        .wrap{max-width:1200px;margin:24px auto;padding:0 16px}
+        .card{background:#fff;border-radius:12px;box-shadow:0 6px 20px rgba(0,0,0,.06);padding:16px}
+        h1{font-size:18px;margin:0 0 12px;color:#001937}
 
-    header {
-      background-color: white;
-      padding: 15px 20px;
-      text-align: center;
-      font-weight: 700;
-      font-size: 1.8em;
-      color: #001937;
-      border-bottom: 2px solid #001937;
-      animation: colorShift 3s infinite alternate;
-    }
+        /* نوار جستجو/فیلتر */
+        .toolbar{display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr 1fr;gap:10px;align-items:end}
+        .field{display:flex;flex-direction:column}
+        .field label{font-size:12px;color:#555;margin-bottom:6px}
+        .toolbar input,.toolbar select{padding:8px;border:1px solid #ddd;border-radius:8px;background:#fff}
+        .actions{grid-column:1/-1;display:flex;gap:8px;justify-content:flex-end;margin-top:8px}
+        .btn{border:0;border-radius:8px;padding:8px 12px;cursor:pointer}
+        .primary{background:#001937;color:#fff}
+        .ghost{background:#eee}
 
-    @keyframes colorShift {
-      0% { color: #001937; }
-      50% { color: #003366; }
-      100% { color: #001937; }
-    }
+        /* نتایج */
+        #searchError{display:none;color:#c62828;background:#ffebee;border:1px solid #ffcdd2;padding:10px;border-radius:8px;margin:12px 0}
+        #resultsGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+        .product-card{width:100%}
+        .product-card img{width:100%;height:320px;object-fit:cover;border-radius:6px;border:1px solid #eee;display:block;margin-bottom:8px}
+        .product-name{font-size:14px;color:#222;margin-bottom:4px;line-height:1.3;min-height:36px}
+        .product-price{font-size:13px;color:#d62828;font-weight:700;margin-bottom:8px}
+        .icons{background:#001937;display:inline-flex;gap:12px;padding:6px 12px;border-radius:8px}
+        .icons a{color:#fff;font-size:18px}
+        .icons a:hover{color:#ff4081}
 
-    .top-section {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      padding: 40px 20px;
-      flex-wrap: wrap;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    .search-container {
-      max-width: 400px;
-      width: 100%;
-      text-align: right;
-      animation: fadeInSlide 1s ease-out forwards;
-      opacity: 0;
-      transform: translateY(30px);
-    }
-
-    @keyframes fadeInSlide {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .search-box {
-      position: relative;
-      margin-bottom: 15px;
-    }
-
-    .search-input {
-      width: 100%;
-      padding: 15px 20px;
-      border: 2px solid #001937;
-      border-radius: 12px;
-      font-size: 18px;
-      background-color: transparent;
-      color: #001937;
-      outline: none;
-      transition: box-shadow 0.4s ease, transform 0.3s ease;
-    }
-
-    .search-input::placeholder {
-      color: rgba(0, 25, 55, 0.6);
-    }
-
-    .search-input:focus {
-      box-shadow: 0 0 15px #001937;
-      transform: scale(1.02);
-    }
-
-    .search-button {
-      padding: 12px 25px;
-      font-size: 16px;
-      color: #ffffff;
-      background-color: #001937;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: background-color 0.3s ease, transform 0.3s ease;
-    }
-
-    .search-button:hover {
-      background-color: #003060;
-      transform: scale(1.05);
-    }
-
-    .features {
-      display: flex;
-      justify-content: center;
-      gap: 60px;
-      flex-wrap: wrap;
-      max-width: 700px;
-      margin-top: 20px;
-    }
-
-    .feature-item {
-      text-align: center;
-      max-width: 140px;
-      font-weight: 600;
-      color: #001937;
-    }
-
-    .feature-item i {
-      font-size: 48px;
-      color: #001937;
-      margin-bottom: 8px;
-    }
-
-    footer {
-      background-color: #001f3f;
-      font-size: 1em;
-      padding-top: 40px;
-      padding-bottom: 20px;
-      color: white;
-    }
-
-    .container-footer {
-      display: flex;
-      max-width: 1000px;
-      margin: 0 auto 30px auto;
-      gap: 40px;
-      flex-wrap: wrap;
-      padding: 0 20px;
-    }
-
-    .right {
-      flex: 2;
-      padding: 0 20px;
-    }
-
-    .right .title {
-      padding: 10px 0;
-      font-size: 1.2em;
-      font-weight: 700;
-    }
-
-    .right .des {
-      color: rgba(255, 255, 255, 0.7);
-      line-height: 1.9em;
-      font-size: 0.9em;
-    }
-
-    .left {
-      flex: 1;
-      padding: 0 20px;
-    }
-
-    .left .title {
-      padding: 10px 0;
-      font-size: 1.2em;
-      font-weight: 700;
-    }
-
-    .socials {
-      display: flex;
-      justify-content: space-around;
-      margin-top: 20px;
-    }
-
-    .socials a {
-      color: white;
-      font-size: 1.4em;
-      transition: color 0.3s ease;
-    }
-
-    .socials a:hover {
-      color: #ff6f61;
-    }
-
-    .bottom {
-      background-color: #2d3436;
-      text-align: center;
-      padding: 15px;
-      color: rgba(255, 255, 255, 0.9);
-      font-size: 0.9em;
-    }
-  </style>
+        @media (max-width:1100px){ #resultsGrid{grid-template-columns:repeat(3,1fr)} }
+        @media (max-width:760px){ #resultsGrid{grid-template-columns:repeat(2,1fr)} .toolbar{grid-template-columns:repeat(2,1fr)} }
+        @media (max-width:480px){ #resultsGrid{grid-template-columns:1fr} .toolbar{grid-template-columns:1fr} }
+    </style>
 </head>
 <body>
+<div id="siteHeader"></div>
 
-  <!-- هدر -->
-  <header>
-    فروشگاه مون استایل
-  </header>
+<div class="wrap">
+    <div class="card">
+        <h1>جستجوی محصول</h1>
 
-  <!-- بخش بالایی: جستجو و ویژگی‌ها -->
-  <section class="top-section">
-    <!-- جستجو سمت راست -->
-    <div class="search-container">
-      <div class="search-box">
-        <input type="text" class="search-input" placeholder="جستجو در محصولات..." />
-      </div>
-      <button class="search-button">جستجو</button>
+        <!-- نوار جستجو/فیلتر -->
+        <form id="searchForm" class="toolbar" onsubmit="event.preventDefault(); applySearch();">
+            <div class="field">
+                <label for="q">نام/عبارت</label>
+                <input id="q" name="q" type="text" placeholder="مثلاً: شومیز، بلوز…">
+            </div>
+            <div class="field">
+                <label for="color">رنگ</label>
+                <select id="color" name="color">
+                    <option value="">همه‌رنگ‌ها</option>
+                    <option>مشکی</option>
+                    <option>سفید</option>
+                    <option>سرمه‌ای</option>
+                    <option>سبز</option>
+                    <option>کرم</option>
+                </select>
+            </div>
+            <div class="field">
+                <label for="size">سایز</label>
+                <select id="size" name="size">
+                    <option value="">همه‌سایزها</option>
+                    <option>S</option><option>M</option><option>L</option><option>XL</option><option>فری</option>
+                </select>
+            </div>
+            <div class="field">
+                <label for="category">دسته</label>
+                <select id="category" name="category">
+                    <option value="">همه</option>
+                    <option>بلوز</option>
+                    <option>شومیز</option>
+                    <option>مانتو</option>
+                    <option>شلوار</option>
+                </select>
+            </div>
+            <div class="field">
+                <label for="priceMin">کمترین قیمت</label>
+                <input id="priceMin" name="priceMin" type="number" min="0" placeholder="مثلاً 500000">
+            </div>
+            <div class="field">
+                <label for="priceMax">بیشترین قیمت</label>
+                <input id="priceMax" name="priceMax" type="number" min="0" placeholder="مثلاً 1200000">
+            </div>
+
+            <div class="actions">
+                <button type="button" class="btn ghost" onclick="clearSearch()">حذف فیلترها</button>
+                <button type="submit" class="btn primary">جستجو</button>
+            </div>
+        </form>
+
+        <!-- خطا + نتایج -->
+        <div id="searchError"></div>
+        <section id="resultsGrid"></section>
     </div>
+</div>
 
-    <!-- ویژگی‌ها سمت چپ -->
-    <div class="features" aria-label="ویژگی های فروشگاه">
-      <div class="feature-item">
-        <i class="fas fa-calendar-check"></i>
-        <p>ضمانت بازگشت کالا</p>
-      </div>
-      <div class="feature-item">
-        <i class="fas fa-check-circle"></i>
-        <p>ضمانت اصالت کالا</p>
-      </div>
-      <div class="feature-item">
-        <i class="fas fa-headset"></i>
-        <p>خدمات پس از فروش</p>
-      </div>
-      <div class="feature-item">
-        <i class="fas fa-shipping-fast"></i>
-        <p>تحویل سریع و آسان</p>
-      </div>
-    </div>
-  </section>
+<script>
+    // مقداردهی اولیه‌ی فیلدها بر اساس querystring جاری
+    (function hydrateFromUrl(){
+        const params = new URLSearchParams(location.search);
+        for (const [k,v] of params.entries()) {
+            const el = document.querySelector(`[name="${k}"]`);
+            if (el) el.value = v;
+        }
+    })();
 
+    function applySearch(){
+        const form = document.getElementById('searchForm');
+        const fd = new FormData(form);
+        const keys = ['q','color','size','category','priceMin','priceMax'];
+        const params = new URLSearchParams();
+        keys.forEach(k => {
+            const val = (fd.get(k) || '').toString().trim();
+            if (val) params.set(k, val);
+        });
+        // رفتن به همان صفحه با پارامترها؛ js/search.js خودش fetch می‌زند
+        location.search = params.toString() ? `?${params}` : '';
+    }
+    function clearSearch(){
+        document.getElementById('searchForm').reset();
+        location.search = '';
+    }
+</script>
 
-
-
-
-
-
-  <!-- فوتر -->
-  <footer>
-    <div class="container-footer">
-      <div class="right">
-        <div class="title">درباره ما</div>
-        <div class="des">
-          فروشگاه اینترنتی مون استایل با هدف ارائه پوشاک باکیفیت، شیک و متناسب با سبک زندگی مدرن تأسیس شده است. این مجموعه با تمرکز بر طراحی روز، جزئیات دقیق و رضایت‌مندی مشتریان، تلاش دارد تجربه‌ای متفاوت و حرفه‌ای از خرید آنلاین را فراهم آورد. مون استایل با پایبندی به اصول کیفیت، تعهد و احترام به مشتری، همواره در مسیر بهبود خدمات و گسترش محصولات گام برمی‌دارد.
-        </div>
-      </div>
-      <div class="left">
-        <div class="title">ما را در شبکه های اجتماعی دنبال کنید</div>
-        <div class="socials">
-          <a href="#"><i class="fab fa-twitter"></i></a>
-          <a href="#"><i class="fab fa-instagram"></i></a>
-          <a href="#"><i class="fab fa-linkedin"></i></a>
-          <a href="#"><i class="fab fa-telegram-plane"></i></a>
-        </div>
-      </div>
-    </div>
-    <div class="bottom">
-      کلیه حقوق این وب سایت به مون استایل تعلق دارد © 2025
-    </div>
-  </footer>
-  <script>
-      document.querySelector('.search-button')?.addEventListener('click', ()=>{
-          const q = document.querySelector('.search-input')?.value?.trim() || '';
-          location.href = '/all-products.html?q=' + encodeURIComponent(q);
-      });
-  </script>
+<script src="/js/header.js"></script>
+<script src="/js/search.js"></script>
 </body>
 </html>

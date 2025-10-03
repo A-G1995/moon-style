@@ -1,67 +1,54 @@
-// src/main/resources/static/js/login.js
-(function () {
-    const form = document.getElementById('login-form');
+(function(){
+    if (window.__loginBooted) return; window.__loginBooted = true;
+
+    const form = document.getElementById('loginForm');
     const emailEl = document.getElementById('email');
     const passEl = document.getElementById('password');
-    const errBox = document.getElementById('errorBox');
+    const errEl  = document.getElementById('loginError');
 
-    // marker so inline fallback doesn't double-handle
-    window.__loginHandlerAttached = true;
+    function showErr(msg){ if (errEl){ errEl.textContent = msg; errEl.style.display='block'; } }
+    function clearErr(){ if (errEl){ errEl.textContent=''; errEl.style.display='none'; } }
 
-    function showError(msg) {
-        if (!errBox) return alert(msg);
-        errBox.textContent = msg;
-        errBox.style.display = 'block';
-    }
-    function hideError() {
-        if (errBox) errBox.style.display = 'none';
+    function toEnglishDigits(s){
+        if (!s) return s;
+        const map = {'۰':'0','۱':'1','۲':'2','۳':'3','۴':'4','۵':'5','۶':'6','۷':'7','۸':'8','۹':'9',
+            '٠':'0','١':'1','٢':'2','٣':'3','٤':'4','٥':'5','٦':'6','٧':'7','٨':'8','٩':'9'};
+        return s.replace(/[۰-۹٠-٩]/g, d => map[d] || d);
     }
 
-    if (!form) return;
-    form.addEventListener('submit', async function (e) {
+    form?.addEventListener('submit', async (e)=>{
         e.preventDefault();
-        hideError();
+        clearErr();
 
-        const email = (emailEl.value || '').trim();
-        const password = passEl.value || '';
+        const email = (emailEl?.value || '').trim();
+        const password = toEnglishDigits(passEl?.value || '').trim();
 
-        if (!email || !password) {
-            showError('ایمیل و رمز عبور الزامی است.');
-            return;
-        }
+        if (!email || !password){ showErr('ایمیل و رمز عبور را وارد کنید'); return; }
 
-        try {
-            const res = await fetch('/user/login', {
+        try{
+            const r = await fetch('/user/login', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: { 'Content-Type':'application/json' },
                 body: JSON.stringify({ email, password })
             });
-
-            if (!res.ok) {
+            if (!r.ok){
                 let msg = 'ورود ناموفق بود';
-                try {
-                    const j = await res.json();
-                    if (j && j.message) msg = j.message;
-                } catch {}
-                showError(msg);
-                return;
+                try { const j = await r.json(); if (j?.message) msg = j.message; } catch {}
+                showErr(msg); return;
             }
+            const res = await r.json();
 
-            const data = await res.json();
-            // Expected backend response: { userId, sessionId, isAdmin }
-            localStorage.setItem('sessionId', data.sessionId);
-            localStorage.setItem('userId', String(data.userId));
-            localStorage.setItem('isAdmin', String(!!data.isAdmin));
+            // ⬅️ اینجاست که نام واقعی کاربر ذخیره می‌شود:
+            localStorage.setItem('sessionId', res.sessionId);
+            localStorage.setItem('userId', String(res.userId));
+            localStorage.setItem('email', res.email || '');
+            localStorage.setItem('fullName', res.fullName || '');
+            localStorage.setItem('isAdmin', String(!!res.isAdmin));
 
-            // redirect
-            if (data.isAdmin) {
-                window.location.href = '/panel.html';
-            } else {
-                window.location.href = '/all-products.html';
-            }
-        } catch (err) {
+            location.href = '/all-products.html';
+        }catch(err){
             console.error(err);
-            showError('خطا در ارتباط با سرور');
+            showErr('مشکل در اتصال به سرور');
         }
     });
 })();
