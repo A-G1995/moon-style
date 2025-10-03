@@ -1,14 +1,16 @@
 package org.example.moonstyle.entity
 
 import jakarta.persistence.*
-import java.math.BigDecimal
-import java.util.Date
+import java.time.Instant
 
 @Entity
 @Table(
     name = "products",
     indexes = [
-        Index(name = "idx_products_active_cat_color_size_price", columnList = "isActive,category,color,size,price"),
+        Index(
+            name = "idx_products_active_cat_color_size_price",
+            columnList = "is_active,category,color,size,price"
+        ),
         Index(name = "idx_products_price", columnList = "price")
     ]
 )
@@ -22,30 +24,41 @@ data class ProductEntity(
     @Column(columnDefinition = "TEXT")
     val description: String? = null,
     
-    @Column(nullable = false, precision = 10, scale = 2)
-    val price: BigDecimal,
+    @Column(nullable = false)             // قیمت به تومان (بدون اعشار)
+    val price: Long,
     
+    @Column(name = "image_url")
     val imageUrl: String? = null,
     
     @Column(nullable = false)
     val color: String,
     
     @Column(nullable = false)
-    val size: String,           // keep simple: "S","M","L","XL"
+    val size: String,
     
     @Column(nullable = false)
-    val category: String,       // e.g., "TSHIRT","HOODIE","JEANS"
+    val category: String,
     
-    @Column(nullable = false)
+    @Column(name = "stock_qty", nullable = false)
     val stockQty: Int,
     
-    @Column(nullable = false)
+    @Column(name = "is_active", nullable = false)
     val isActive: Boolean = true,
     
     @Column(name = "created_at", nullable = false)
-    var createdAt: Date = Date(),
+    var createdAt: Instant = Instant.now(),
     
-    @Column(nullable = false)
-    val updatedAt: Date = Date()
-
-)
+    @Column(name = "updated_at", nullable = false)
+    var updatedAt: Instant = Instant.now()
+) {
+    @PrePersist
+    fun onCreate() {
+        val now = Instant.now()
+        createdAt = now
+        updatedAt = now
+    }
+    @PreUpdate
+    fun onUpdate() {
+        updatedAt = Instant.now()
+    }
+}
