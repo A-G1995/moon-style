@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <title>پنل ادمین | Moon Style</title>
+    <link rel="icon" type="image/png" href="/images/favicon.png"/>
+    <style>
+        :root{--brand:#001937;--card:#fff;--bg:#f7f7f7}
+        *{box-sizing:border-box}
+        body{font-family:Tahoma,sans-serif;background:var(--bg);margin:0}
+        .wrap{max-width:1100px;margin:24px auto;padding:0 16px}
+        .card{background:var(--card);border-radius:12px;box-shadow:0 6px 20px rgba(0,0,0,.06);padding:16px;margin-bottom:16px}
+        h1,h2{color:var(--brand);margin:0 0 12px}
+        .muted{color:#666}
+        canvas{max-width:640px}
+    </style>
+</head>
+<body>
+<div id="siteHeader"></div>
+
+<div class="wrap">
+    <div class="card">
+        <h1>گزارش فروش</h1>
+        <p class="muted">توزیع تعداد اقلام خریداری‌شده بر اساس دسته‌بندی</p>
+        <div id="adminError" style="display:none;background:#ffebee;color:#c62828;border:1px solid #ffcdd2;border-radius:8px;padding:8px;margin:12px 0"></div>
+        <canvas id="salesPie" width="640" height="640" aria-label="نمودار فروش"></canvas>
+    </div>
+</div>
+
+<script src="/js/header.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="/js/admin.js"></script>
+</body>
+</html>
