@@ -1,11 +1,10 @@
 package org.example.moonstyle.controller
 
+import org.example.moonstyle.entity.dto.OrderDto
 import org.example.moonstyle.service.OrderService
 import org.example.moonstyle.session.SessionGate
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestHeader
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.http.HttpStatus
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/orders")
@@ -14,6 +13,18 @@ class OrderController(
     private val orderService: OrderService
 ) {
     @PostMapping("/checkout")
-    fun checkout(@RequestHeader("X-Session-Id") sid: String?) =
+    @ResponseStatus(HttpStatus.OK)
+    fun checkout(@RequestHeader("X-Session-Id") sid: String?): OrderDto =
         orderService.checkout(gate.requireUserId(sid))
+    
+    @GetMapping
+    fun myOrders(@RequestHeader("X-Session-Id") sid: String?): List<OrderDto> =
+        orderService.listForUser(gate.requireUserId(sid))
+    
+    @GetMapping("/{orderId}")
+    fun orderDetail(
+        @RequestHeader("X-Session-Id") sid: String?,
+        @PathVariable orderId: Long
+    ): OrderDto =
+        orderService.getOne(gate.requireUserId(sid), orderId)
 }

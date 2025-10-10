@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository
 
 
 interface OrderRepository : JpaRepository<OrderEntity, Long> {
-    fun findAllByUserIdOrderByCreatedAtDesc(userId: Int): List<OrderEntity>
+    fun findByUserIdOrderByCreatedAtDesc(userId: Int): List<OrderEntity>
 }

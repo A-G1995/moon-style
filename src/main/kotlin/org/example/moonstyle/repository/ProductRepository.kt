@@ -17,7 +17,7 @@ interface ProductRepository : JpaRepository<ProductEntity, Int> {
           AND (:category IS NULL OR p.category = :category)
           AND (:minPrice IS NULL OR p.price >= :minPrice)
           AND (:maxPrice IS NULL OR p.price <= :maxPrice)
-    """
+        """
     )
     fun search(
         @Param("q") q: String?,
@@ -33,7 +33,7 @@ interface ProductRepository : JpaRepository<ProductEntity, Int> {
         SELECT p FROM ProductEntity p
         WHERE p.isActive = true AND p.price BETWEEN :minAmt AND :maxAmt
         ORDER BY p.price ASC
-    """
+        """
     )
     fun findByPriceRange(
         @Param("minAmt") minAmt: Long,

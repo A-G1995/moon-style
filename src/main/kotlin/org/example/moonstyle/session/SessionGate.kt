@@ -6,8 +6,8 @@ import org.springframework.web.server.ResponseStatusException
 
 @Component
 class SessionGate(private val sessions: SessionStore) {
-    fun requireUserId(sid: String?): Int {
-        val s = sessions.get(sid) ?: throw ResponseStatusException(HttpStatus.UNAUTHORIZED, "ابتدا وارد شوید")
-        return s.userId!!
+    fun requireUserId(sessionId: String?): Int {
+        val s = sessions.get(sessionId) ?: throw ResponseStatusException(HttpStatus.UNAUTHORIZED, "نشست نامعتبر")
+        return s.userId
     }
 }

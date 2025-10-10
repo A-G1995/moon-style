@@ -1,6 +1,5 @@
 package org.example.moonstyle.entity.dto
 
-import org.example.moonstyle.entity.ProductEntity
 
 data class ProductDto(
     val id: Int,

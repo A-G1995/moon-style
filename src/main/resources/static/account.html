@@ -1,66 +1,102 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <title>حساب کاربری</title>
+    <title>حساب کاربری | Moon Style</title>
+    <link rel="icon" type="image/png" href="/images/favicon.png"/>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
     <style>
-        body{font-family:Tahoma,sans-serif;background:#f7f7f7;margin:0}
-        .wrap{max-width:740px;margin:24px auto;padding:16px}
-        .card{background:#fff;border-radius:12px;box-shadow:0 6px 20px rgba(0,0,0,.06);padding:16px}
-        h1{font-size:18px;margin:0 0 12px}
-        .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-        .field{display:flex;flex-direction:column}
-        label{font-size:12px;margin-bottom:6px;color:#555}
-        input{padding:10px;border:1px solid #ddd;border-radius:8px}
-        .row{display:flex;gap:8px;justify-content:flex-end;margin-top:12px}
-        .btn{border:0;border-radius:8px;padding:8px 12px;cursor:pointer}
-        .primary{background:#001937;color:#fff}
-        .ghost{background:#eee}
-        #err{display:none;color:#c62828;background:#ffebee;border:1px solid #ffcdd2;padding:8px 10px;border-radius:8px;margin-bottom:12px}
+        :root{--brand:#001937;--muted:#666;--card:#fff;--bg:#f7f7f7}
+        *{box-sizing:border-box}
+        body{font-family:Tahoma,sans-serif;background:var(--bg);margin:0}
+        .wrap{max-width:1100px;margin:24px auto;padding:0 16px}
+        .layout{display:grid;grid-template-columns:1fr 2fr;gap:16px}
+        @media (max-width:900px){ .layout{grid-template-columns:1fr} }
+        .card{background:var(--card);border-radius:12px;box-shadow:0 6px 20px rgba(0,0,0,.06);padding:16px;margin-bottom:16px}
+        h1,h2,h3{color:var(--brand);margin:0 0 12px}
+        .muted{color:var(--muted)}
+        .row{display:grid;grid-template-columns:120px 1fr;gap:8px;margin:6px 0}
+        label{font-size:13px;color:#444}
+        input{width:100%;padding:8px;border:1px solid #ddd;border-radius:8px}
+        .actions{display:flex;gap:8px;margin-top:10px}
+        .btn{border:0;border-radius:10px;padding:8px 12px;cursor:pointer}
+        .btn.primary{background:var(--brand);color:#fff}
+        .btn.ghost{background:#eef3ff;color:#223}
+
+        /* خریدهای من */
+        .buy-list{list-style:none;padding:0;margin:0}
+        .buy-list li{display:flex;justify-content:space-between;gap:8px;padding:8px 0;border-bottom:1px solid #eee}
+        .buy-title{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+        .chip{background:#eef3ff;border-radius:999px;padding:2px 8px;font-size:12px}
+
+        /* جدول سفارش‌ها (اختیاری: اگر بعداً لازم شد) */
+        table{width:100%;border-collapse:collapse;background:#fff;border-radius:10px;overflow:hidden}
+        th,td{padding:8px;border-bottom:1px solid #eee;text-align:right}
+        thead tr{background:#f5f7fa}
+
+        /* Modal جزئیات سفارش (برای آینده اگر لازم شد) */
+        #orderModal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);align-items:center;justify-content:center;z-index:30}
+        #orderModal .box{background:#fff;border-radius:12px;max-width:700px;width:92%;padding:16px;box-shadow:0 10px 30px rgba(0,0,0,.2)}
     </style>
 </head>
 <body>
 <div id="siteHeader"></div>
 
 <div class="wrap">
-    <div class="card">
-        <h1>حساب کاربری</h1>
-        <div id="err" style="display:none;color:#c62828;background:#ffebee;border:1px solid #ffcdd2;padding:8px 10px;border-radius:8px;margin-bottom:12px"></div>
+    <div class="layout">
 
-        <div class="grid">
-            <div class="field" data-field="fullName">
-                <label for="fullName">نام کامل</label>
-                <input id="fullName" type="text" disabled />
-                <small data-error style="color:#c62828"></small>
-            </div>
-            <div class="field" data-field="email">
-                <label for="email">ایمیل</label>
-                <input id="email" type="email" disabled />
-                <small data-error style="color:#c62828"></small>
-            </div>
-            <div class="field" data-field="phoneNumber">
-                <label for="phoneNumber">شماره تلفن</label>
-                <input id="phoneNumber" type="text" disabled inputmode="numeric" pattern="[0-9]*"/>
-                <small data-error style="color:#c62828"></small>
-            </div>
-            <div class="field" data-field="nationalNumber">
-                <label for="nationalNumber">کد ملی</label>
-                <input id="nationalNumber" type="text" disabled inputmode="numeric" pattern="[0-9]*"/>
-                <small data-error style="color:#c62828"></small>
-            </div>
-            <div class="field" data-field="birthDate">
-                <label for="birthDate">تاریخ تولد (yyyy-MM-dd)</label>
-                <input id="birthDate" type="text" disabled placeholder="1998-06-21"/>
-                <small data-error style="color:#c62828"></small>
-            </div>
-        </div>
+        <!-- ستون چپ: خریدهای من -->
+        <aside class="card" id="purchasesPanel">
+            <h2 style="margin:0 0 10px">خریدهای من</h2>
+            <div id="purchasesEmpty" class="muted" style="display:none">تا حالا خریدی انجام نداده‌اید.</div>
+            <ul id="purchasesList" class="buy-list"></ul>
+        </aside>
 
-        <div class="row">
-            <button id="editBtn" class="btn ghost">ویرایش</button>
-            <button id="cancelBtn" class="btn ghost" style="display:none">انصراف</button>
-            <button id="saveBtn" class="btn primary" style="display:none">ذخیره</button>
+        <!-- ستون راست: پروفایل -->
+        <section class="card">
+            <h1>حساب کاربری</h1>
+
+            <div id="profileError" class="muted" style="display:none;background:#ffebee;color:#c62828;border:1px solid #ffcdd2;border-radius:8px;padding:8px"></div>
+
+            <!-- نمایش اطلاعات -->
+            <div id="profileView">
+                <div class="row"><label>نام کامل</label><div id="v_fullName" class="muted">—</div></div>
+                <div class="row"><label>ایمیل</label><div id="v_email" class="muted">—</div></div>
+                <div class="row"><label>شماره موبایل</label><div id="v_phone" class="muted">—</div></div>
+                <div class="row"><label>کد ملی</label><div id="v_national" class="muted">—</div></div>
+                <div class="row"><label>تاریخ تولد</label><div id="v_birth" class="muted">—</div></div>
+                <div class="actions">
+                    <button id="btnEdit" class="btn primary">ویرایش</button>
+                </div>
+            </div>
+
+            <!-- فرم ویرایش -->
+            <form id="profileForm" style="display:none;margin-top:6px">
+                <div class="row"><label for="f_fullName">نام کامل</label><input id="f_fullName" name="fullName" required/></div>
+                <div class="row"><label for="f_email">ایمیل</label><input id="f_email" name="email" type="email" required/></div>
+                <div class="row"><label for="f_phone">شماره موبایل</label><input id="f_phone" name="phoneNumber" required/></div>
+                <div class="row"><label for="f_national">کد ملی</label><input id="f_national" name="nationalNumber" required/></div>
+                <div class="row"><label for="f_birth">تاریخ تولد</label><input id="f_birth" name="birthDate" type="date"/></div>
+                <div class="actions">
+                    <button type="submit" class="btn primary">ذخیره</button>
+                    <button type="button" id="btnCancel" class="btn ghost">انصراف</button>
+                </div>
+            </form>
+        </section>
+
+    </div>
+</div>
+
+<!-- Modal جزئیات سفارش (فعلاً اختیاری) -->
+<div id="orderModal">
+    <div class="box">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+            <h3 style="margin:0">جزئیات سفارش</h3>
+            <button id="closeOrderModal" class="btn ghost">بستن</button>
         </div>
+        <div id="orderDetailBox" style="max-height:60vh;overflow:auto"></div>
     </div>
 </div>
 

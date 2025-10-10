@@ -21,7 +21,7 @@ class CartServiceImpl(
     @Transactional(readOnly = true)
     override fun getCart(userId: Int): CartDto {
         val cart = cartRepo.findByUserId(userId) ?: return CartDto(emptyList(), 0)
-        val items = cart.items.map {
+        val items = cart.items.map { it ->
             val price = it.product.price // Long
             CartItemDto(
                 productId = it.product.id!!.toLong(),
@@ -37,12 +37,14 @@ class CartServiceImpl(
     
     @Transactional
     override fun addOrUpdate(userId: Int, req: CartItemRequest): CartDto {
+        if (req.quantity <= 0) throw ResponseStatusException(HttpStatus.BAD_REQUEST, "تعداد نامعتبر است")
+        
         val product = productRepo.findById(req.productId.toInt()).orElseThrow {
             ResponseStatusException(HttpStatus.NOT_FOUND, "محصول یافت نشد")
         }
-        if (req.quantity <= 0) throw ResponseStatusException(HttpStatus.BAD_REQUEST, "تعداد نامعتبر است")
         
         val cart = cartRepo.findByUserId(userId) ?: cartRepo.save(CartEntity(userId = userId))
+        
         val existing = cart.items.firstOrNull { it.product.id == product.id }
         if (existing == null) {
             cart.items.add(CartItemEntity(cart = cart, product = product, quantity = req.quantity))
