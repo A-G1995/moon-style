@@ -2,71 +2,88 @@ package org.example.moonstyle.service
 
 import org.example.moonstyle.entity.OrderEntity
 import org.example.moonstyle.entity.OrderItemEntity
-import org.example.moonstyle.entity.OrderMapper
+import org.example.moonstyle.entity.dto.CartItemDto
 import org.example.moonstyle.entity.dto.OrderDto
 import org.example.moonstyle.repository.CartRepository
 import org.example.moonstyle.repository.OrderRepository
-import org.example.moonstyle.repository.ProductRepository
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.server.ResponseStatusException
-import java.time.OffsetDateTime
-
 
 @Service
 class OrderServiceImpl(
     private val orderRepo: OrderRepository,
-    private val cartRepo: CartRepository,
-    private val productRepo: ProductRepository
+    private val cartRepo: CartRepository
 ) : OrderService {
     
     @Transactional
     override fun checkout(userId: Int): OrderDto {
         val cart = cartRepo.findByUserId(userId)
-            ?: throw ResponseStatusException(HttpStatus.BAD_REQUEST, "سبد خالی است")
-        if (cart.items.isEmpty()) throw ResponseStatusException(HttpStatus.BAD_REQUEST, "سبد خالی است")
+            ?: throw ResponseStatusException(HttpStatus.BAD_REQUEST, "سبد خرید یافت نشد")
+        if (cart.items.isEmpty()) {
+            throw ResponseStatusException(HttpStatus.BAD_REQUEST, "سبد خرید خالی است")
+        }
         
-        val prods = productRepo
-            .findAllById(cart.items.map { it.product.id!! }.distinct())
-            .associateBy { it.id!! }
-        
+        val order = OrderEntity(userId = userId)
         var total = 0L
-        val order = OrderEntity(userId = userId, total = 0L, createdAt = OffsetDateTime.now())
-        val orderItems = cart.items.map { ci ->
-            val p = prods[ci.product.id!!]!!
-            val line = p.price * ci.quantity
-            total += line
-            OrderItemEntity(
-                order = order,
+        
+        // تبدیل آیتم‌های سبد به آیتم‌های سفارش
+        cart.items.forEach { ci ->
+            val p = ci.product
+            val price = p.price
+            val qty = ci.quantity
+            total += price * qty
+            
+            val oi = OrderItemEntity(
                 product = p,
                 title = p.title,
-                price = p.price,      // Long
-                quantity = ci.quantity
+                price = price,
+                quantity = qty
             )
-        }.toMutableList()
+            order.addItem(oi) // ⬅️ بک‌رفرنس ست می‌شود: oi.order = order
+        }
+        order.totalAmount = total
         
-        order.items.addAll(orderItems)
-        val saved = orderRepo.save(order.copy(total = total))
+        // فقط Order ذخیره می‌شود؛ آیتم‌ها به‌دلیل Cascade.ALL ذخیره می‌شوند
+        val saved = orderRepo.save(order)
         
         // خالی کردن سبد
+        cart.items.forEach { it.cart = null }
         cart.items.clear()
         cartRepo.save(cart)
         
-        return OrderMapper.toDto(saved, includeItems = true)
+        return saved.toDto()
     }
     
     @Transactional(readOnly = true)
-    override fun listForUser(userId: Int): List<OrderDto> =
-        orderRepo.findByUserIdOrderByCreatedAtDesc(userId)
-            .map { OrderMapper.toDto(it, includeItems = false) }
+    override fun listMyOrders(userId: Int): List<OrderDto> =
+        orderRepo.findByUserIdOrderByCreatedAtDesc(userId).map { it.toDto() }
     
     @Transactional(readOnly = true)
-    override fun getOne(userId: Int, orderId: Long): OrderDto {
-        val o = orderRepo.findById(orderId).orElseThrow {
+    override fun getOrder(userId: Int, id: Long): OrderDto {
+        val o = orderRepo.findById(id).orElseThrow {
             ResponseStatusException(HttpStatus.NOT_FOUND, "سفارش یافت نشد")
         }
-        if (o.userId != userId) throw ResponseStatusException(HttpStatus.FORBIDDEN, "دسترسی غیرمجاز")
-        return OrderMapper.toDto(o, includeItems = true)
+        if (o.userId != userId)
+            throw ResponseStatusException(HttpStatus.FORBIDDEN, "دسترسی غیرمجاز")
+        return o.toDto()
     }
+    
+    // --- مپ‌ها
+    private fun OrderEntity.toDto(): OrderDto =
+        OrderDto(
+            id = this.id!!,
+            total = this.totalAmount,
+            items = this.items.map {
+                CartItemDto(
+                    productId = it.product.id!!.toLong(),
+                    title = it.title,
+                    price = it.price,
+                    quantity = it.quantity,
+                    subtotal = it.price * it.quantity
+                )
+            },
+            createdAt = this.createdAt.toInstant().toString()
+        )
 }

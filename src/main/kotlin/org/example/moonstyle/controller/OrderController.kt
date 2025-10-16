@@ -1,30 +1,29 @@
-package org.example.moonstyle.controller
+package org.example.moonstyle.web
 
-import org.example.moonstyle.entity.dto.OrderDto
 import org.example.moonstyle.service.OrderService
-import org.example.moonstyle.session.SessionGate
+import org.example.moonstyle.session.SessionStore
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
+import org.springframework.web.server.ResponseStatusException
 
 @RestController
 @RequestMapping("/orders")
 class OrderController(
-    private val gate: SessionGate,
+    private val sessions: SessionStore,
     private val orderService: OrderService
 ) {
+    private fun requireUserId(sid: String?): Int =
+        sessions.get(sid)?.userId ?: throw ResponseStatusException(HttpStatus.UNAUTHORIZED, "ابتدا وارد شوید")
+    
     @PostMapping("/checkout")
-    @ResponseStatus(HttpStatus.OK)
-    fun checkout(@RequestHeader("X-Session-Id") sid: String?): OrderDto =
-        orderService.checkout(gate.requireUserId(sid))
+    fun checkout(@RequestHeader("X-Session-Id") sid: String?): Any =
+        orderService.checkout(requireUserId(sid))
     
     @GetMapping
-    fun myOrders(@RequestHeader("X-Session-Id") sid: String?): List<OrderDto> =
-        orderService.listForUser(gate.requireUserId(sid))
+    fun listMyOrders(@RequestHeader("X-Session-Id") sid: String?): Any =
+        orderService.listMyOrders(requireUserId(sid))
     
-    @GetMapping("/{orderId}")
-    fun orderDetail(
-        @RequestHeader("X-Session-Id") sid: String?,
-        @PathVariable orderId: Long
-    ): OrderDto =
-        orderService.getOne(gate.requireUserId(sid), orderId)
+    @GetMapping("/{id}")
+    fun getOrder(@RequestHeader("X-Session-Id") sid: String?, @PathVariable id: Long): Any =
+        orderService.getOrder(requireUserId(sid), id)
 }

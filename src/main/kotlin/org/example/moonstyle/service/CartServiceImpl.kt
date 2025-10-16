@@ -20,52 +20,78 @@ class CartServiceImpl(
     
     @Transactional(readOnly = true)
     override fun getCart(userId: Int): CartDto {
-        val cart = cartRepo.findByUserId(userId) ?: return CartDto(emptyList(), 0)
-        val items = cart.items.map { it ->
-            val price = it.product.price // Long
+        val cart = cartRepo.findByUserId(userId) ?: return CartDto(emptyList(), 0L)
+        
+        val items = cart.items.map { ci ->
+            val price: Long = ci.product.price
             CartItemDto(
-                productId = it.product.id!!.toLong(),
-                title = it.product.title,
+                productId = ci.product.id!!.toLong(),
+                title = ci.product.title,
                 price = price,
-                quantity = it.quantity,
-                subtotal = price * it.quantity
+                quantity = ci.quantity,
+                subtotal = price * ci.quantity
             )
         }
-        val total = items.sumOf { it.subtotal }
+        
+        val total: Long = items.fold(0L) { acc, it -> acc + it.subtotal }
         return CartDto(items, total)
     }
     
     @Transactional
     override fun addOrUpdate(userId: Int, req: CartItemRequest): CartDto {
-        if (req.quantity <= 0) throw ResponseStatusException(HttpStatus.BAD_REQUEST, "تعداد نامعتبر است")
-        
+        val qty = req.quantity.coerceAtLeast(1) // حداقل 1
         val product = productRepo.findById(req.productId.toInt()).orElseThrow {
             ResponseStatusException(HttpStatus.NOT_FOUND, "محصول یافت نشد")
         }
         
+        // اگر سبد نبود، بسازیم
         val cart = cartRepo.findByUserId(userId) ?: cartRepo.save(CartEntity(userId = userId))
         
+        // آیا آیتم از قبل در سبد هست؟
         val existing = cart.items.firstOrNull { it.product.id == product.id }
         if (existing == null) {
-            cart.items.add(CartItemEntity(cart = cart, product = product, quantity = req.quantity))
+            // ایجاد آیتم جدید و ست کردن بک‌رفرنس‌ها
+            val item = CartItemEntity(
+                cart = cart,
+                product = product,
+                quantity = qty
+            )
+            cart.items.add(item) // برای mappedBy="cart" لازم است
         } else {
-            existing.quantity = req.quantity
+            existing.quantity = qty
+            // اطمینان از سازگاری رابطه
+            if (existing.cart != cart) existing.cart = cart
         }
-        cartRepo.save(cart)
+        
+        cartRepo.save(cart) // به‌واسطه‌ی cascade، آیتم‌ها هم ذخیره می‌شوند (اگر در mapping گذاشته باشی)
         return getCart(userId)
     }
     
     @Transactional
     override fun removeItem(userId: Int, productId: Long): CartDto {
-        val cart = cartRepo.findByUserId(userId) ?: return CartDto(emptyList(), 0)
-        cart.items.removeIf { it.product.id?.toLong() == productId }
-        cartRepo.save(cart)
+        val cart = cartRepo.findByUserId(userId) ?: return CartDto(emptyList(), 0L)
+        
+        val iter = cart.items.iterator()
+        var removed = false
+        while (iter.hasNext()) {
+            val it = iter.next()
+            if (it.product.id?.toLong() == productId) {
+                // قطع رابطهٔ دوطرفه تا orphanRemoval درست کار کند
+                it.cart = null
+                iter.remove()
+                removed = true
+            }
+        }
+        
+        if (removed) cartRepo.save(cart)
         return getCart(userId)
     }
     
     @Transactional
     override fun clear(userId: Int) {
         val cart = cartRepo.findByUserId(userId) ?: return
+        // قطع رابطهٔ دوطرفه برای تمام آیتم‌ها
+        cart.items.forEach { it.cart = null }
         cart.items.clear()
         cartRepo.save(cart)
     }

@@ -20,7 +20,7 @@ object OrderMapper {
         }
         return OrderDto(
             id = order.id!!,
-            total = order.total,
+            total = order.totalAmount,
             items = itemsDto,
             createdAt = order.createdAt.toString()
         )

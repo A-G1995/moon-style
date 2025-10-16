@@ -5,17 +5,17 @@ import jakarta.persistence.*
 @Entity
 @Table(
     name = "cart_items",
-    uniqueConstraints = [UniqueConstraint(columnNames = ["cart_id","product_id"])]
+    uniqueConstraints = [UniqueConstraint(columnNames = ["cart_id", "product_id"])]
 )
 data class CartItemEntity(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null,
     
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "cart_id", nullable = false)
-    val cart: CartEntity,
+    var cart: CartEntity? = null,
     
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "product_id", nullable = false)
     val product: ProductEntity,
     

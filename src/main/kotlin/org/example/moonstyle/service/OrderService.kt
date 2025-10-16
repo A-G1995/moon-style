@@ -4,6 +4,6 @@ import org.example.moonstyle.entity.dto.OrderDto
 
 interface OrderService {
     fun checkout(userId: Int): OrderDto
-    fun listForUser(userId: Int): List<OrderDto>
-    fun getOne(userId: Int, orderId: Long): OrderDto
+    fun listMyOrders(userId: Int): List<OrderDto>
+    fun getOrder(userId: Int, id: Long): OrderDto
 }

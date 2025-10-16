@@ -1,23 +1,34 @@
 package org.example.moonstyle.entity
 
 import jakarta.persistence.*
-import java.time.OffsetDateTime
+import java.util.*
 
 @Entity
-@Table(name = "orders", indexes = [Index(name="idx_orders_user", columnList = "user_id")])
+@Table(name = "orders")
 data class OrderEntity(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null,
     
-    @Column(name="user_id", nullable = false)
+    @Column(name = "user_id", nullable = false)
     val userId: Int,
     
-    @Column(nullable = false)
-    val total: Long,
+    @Column(name = "total_amount", nullable = false)
+    var totalAmount: Long = 0L,
     
-    @Column(name="created_at", nullable = false)
-    val createdAt: OffsetDateTime = OffsetDateTime.now(),
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "created_at", nullable = false)
+    val createdAt: Date = Date(),
     
-    @OneToMany(mappedBy = "order", cascade = [CascadeType.ALL], orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(
+        mappedBy = "order",
+        cascade = [CascadeType.ALL],
+        orphanRemoval = true
+    )
     val items: MutableList<OrderItemEntity> = mutableListOf()
-)
+) {
+    /** همیشه بک‌رفرنس آیتم را به این سفارش ست کن */
+    fun addItem(item: OrderItemEntity) {
+        item.order = this
+        items.add(item)
+    }
+}
